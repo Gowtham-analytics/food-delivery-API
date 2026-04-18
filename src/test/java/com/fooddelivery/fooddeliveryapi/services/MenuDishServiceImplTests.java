@@ -1,0 +1,198 @@
+package com.fooddelivery.fooddeliveryapi.services;
+
+import com.fooddelivery.fooddeliveryapi.Exceptions.ResourceNotFoundException;
+import com.fooddelivery.fooddeliveryapi.domain.entities.MenuDish;
+import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
+import com.fooddelivery.fooddeliveryapi.repositories.MenuDishRepository;
+import com.fooddelivery.fooddeliveryapi.repositories.RestaurantRepository;
+import com.fooddelivery.fooddeliveryapi.services.Impl.MenuDishServiceImpl;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+public class MenuDishServiceImplTests {
+
+    @Mock
+    RestaurantRepository restaurantRepository;
+
+    @Mock
+    MenuDishRepository menuDishRepository;
+
+    @InjectMocks
+    MenuDishServiceImpl menuDishService;
+
+    @Test
+    public void listMenuDishesShouldReturnListOfMenuDishesWhenRestaurantExists() {
+
+        Long id = 1L;
+        Restaurant testRestaurant = new Restaurant();
+        List<MenuDish> testList = List.of(new MenuDish(), new MenuDish());
+
+        when(restaurantRepository.findById(id)).thenReturn(Optional.of(testRestaurant));
+        when(menuDishRepository.findByRestaurantId(id)).thenReturn(testList);
+
+        List<MenuDish> result = menuDishService.listMenuDishes(id);
+
+        assertNotNull(result);
+        assertEquals(testList.size(), result.size());
+    }
+
+    @Test
+    public void listMenuDishesShouldThrowExceptionWhenRestaurantDoesNotExist() {
+
+        Long id = 1L;
+
+        when(restaurantRepository.findById(id)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> menuDishService.listMenuDishes(id));
+    }
+
+    @Test
+    public void menuDishShouldReturnMenuDish() {
+
+        Long restaurantId = 1L;
+        Long menuDishId = 1L;
+        MenuDish testMenuDish = new MenuDish(1L, "testMenuDish", 50.00, true, null, null, null);
+
+        when(menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId)).thenReturn(Optional.of(testMenuDish));
+
+        MenuDish result = menuDishService.menuDish(restaurantId, menuDishId);
+
+        assertEquals(testMenuDish, result);
+    }
+
+    @Test
+    public void menuDishShouldThrowExceptionWhenRestaurantOrMenuDishDoesNotExist() {
+
+        Long restaurantId = 1L;
+        Long menuDishId = 1L;
+
+        when(menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId))
+                .thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class,
+                () -> menuDishService.menuDish(restaurantId, menuDishId));
+    }
+
+    @Test
+    public void createMenuDishMustCreateMenuDish() {
+
+        Long id = 1L;
+        Restaurant testRestaurant = new Restaurant();
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null);
+
+        when(restaurantRepository.findById(id)).thenReturn(Optional.of(testRestaurant));
+        when(menuDishRepository.save(any(MenuDish.class))).thenReturn(testMenuDish);
+
+        MenuDish result = menuDishService.createMenuDish(id, testMenuDish);
+
+        assertEquals(testMenuDish.getName(), result.getName());
+        assertEquals(testMenuDish.getPrice(), result.getPrice());
+        assertEquals(testMenuDish.getVeg(), result.getVeg());
+        assertEquals(testMenuDish.getRestaurant(), result.getRestaurant());
+    }
+
+    @Test
+    public void createMenuDishShouldThrowExceptionWhenRestaurantDoesNotExist() {
+
+        Long id = 1L;
+        Restaurant testRestaurant = new Restaurant();
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null);
+
+        when(restaurantRepository.findById(id)).thenReturn(Optional.empty());
+
+        assertThrows(IllegalArgumentException.class,
+                () -> menuDishService.createMenuDish(id, testMenuDish));
+    }
+
+    @Test
+    public void partialUpdateShouldUpdateMenuDish() {
+
+        Long restaurantId = 1L;
+        Long menuDishId = 1L;
+        Restaurant testRestaurant = new Restaurant();
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null);
+
+        testMenuDish.setName("Poori");
+        testMenuDish.setPrice(30.00);
+
+        when(menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId)).thenReturn(Optional.of(testMenuDish));
+        when(menuDishRepository.save(testMenuDish)).thenReturn(testMenuDish);
+
+        MenuDish result = menuDishService.partialUpdate(restaurantId, menuDishId, testMenuDish);
+
+        assertEquals(result.getName(), testMenuDish.getName());
+        assertEquals(result.getPrice(), testMenuDish.getPrice());
+        assertEquals(result.getVeg(), testMenuDish.getVeg());
+        assertEquals(result.getRestaurant(), testMenuDish.getRestaurant());
+    }
+
+    @Test
+    public void partialUpdateShouldThrowExceptionWhenRestaurantOrMenuDishDoesNotExist() {
+
+        Long restaurantId = 1L;
+        Long menuDishId = 1L;
+        Restaurant testRestaurant = new Restaurant();
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null);
+
+        testMenuDish.setName("Poori");
+        testMenuDish.setPrice(30.00);
+
+        when(menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class,
+                () -> menuDishService.partialUpdate(restaurantId, menuDishId, testMenuDish));
+    }
+
+    @Test
+    public void fullUpdateShouldUpdateMenuDish() {
+
+        Long restaurantId = 1L;
+        Long menuDishId = 1L;
+        Restaurant testRestaurant = new Restaurant();
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null);
+
+        testMenuDish.setName("Poori");
+        testMenuDish.setPrice(30.00);
+        testMenuDish.setVeg(true);
+
+        when(menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId)).thenReturn(Optional.of(testMenuDish));
+        when(menuDishRepository.save(testMenuDish)).thenReturn(testMenuDish);
+
+        MenuDish result = menuDishService.fullUpdate(restaurantId, menuDishId, testMenuDish);
+
+        assertEquals(result.getName(), testMenuDish.getName());
+        assertEquals(result.getPrice(), testMenuDish.getPrice());
+        assertEquals(result.getVeg(), testMenuDish.getVeg());
+        assertEquals(result.getRestaurant(), testMenuDish.getRestaurant());
+    }
+
+    @Test
+    public void fullUpdateShouldThrowExceptionWhenRestaurantOrMenuDishDoesNotExist() {
+
+        Long restaurantId = 1L;
+        Long menuDishId = 1L;
+        Restaurant testRestaurant = new Restaurant();
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null);
+
+        testMenuDish.setName("Poori");
+        testMenuDish.setPrice(30.00);
+        testMenuDish.setVeg(true);
+
+        when(menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class,
+                () -> menuDishService.partialUpdate(restaurantId, menuDishId, testMenuDish));
+
+    }
+}

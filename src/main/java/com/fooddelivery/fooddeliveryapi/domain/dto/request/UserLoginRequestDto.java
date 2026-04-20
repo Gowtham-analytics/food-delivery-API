@@ -1,9 +1,11 @@
-package com.fooddelivery.fooddeliveryapi.domain.dto.create;
+package com.fooddelivery.fooddeliveryapi.domain.dto.request;
 
 import com.fooddelivery.fooddeliveryapi.domain.entities.UserRole;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
-public record UserCreateDto(
+public record UserLoginRequestDto(
 
         @NotBlank(message = "Username cannot be empty!")
         @Size(min = 3, max = 256, message = "Username should only have 3 - 256 characters")
@@ -14,7 +16,6 @@ public record UserCreateDto(
         @Size(min = 6, max = 100, message = "Password should only have 6 - 100 characters")
         String password,
 
-        @NotNull(message = "Role cannot be null")
         UserRole role
 ) {
 }

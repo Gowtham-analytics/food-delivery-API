@@ -5,6 +5,7 @@ import com.fooddelivery.fooddeliveryapi.domain.entities.UserEntity;
 import com.fooddelivery.fooddeliveryapi.domain.entities.UserRole;
 import com.fooddelivery.fooddeliveryapi.repositories.UserRepository;
 import com.fooddelivery.fooddeliveryapi.services.UserService;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 
 @Service
@@ -44,7 +46,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .authorities(Collections.emptyList())
+                .authorities(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
                 .build();
     }
 
@@ -55,6 +57,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         if(userExists) {
             throw new UsernameAlreadyExistsException("Username already exists");
+        }
+
+        if(userRole == null) {
+            throw new IllegalArgumentException("Role cannot be null");
         }
 
         LocalDateTime now = LocalDateTime.now();

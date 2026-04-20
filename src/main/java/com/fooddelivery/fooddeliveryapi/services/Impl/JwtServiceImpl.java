@@ -20,13 +20,16 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateToken(String username) {
+    public String generateToken(String username, String role) {
+
+        HashMap<String, Object> claims = new HashMap<>();
+        claims.put("Role", role);
 
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
-                .addClaims(new HashMap<>())
+                .addClaims(claims)
                 .signWith(jwtSecurityKey.getKEY(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -48,6 +51,6 @@ public class JwtServiceImpl implements JwtService {
     }
 
     public boolean isTokenExpired(String token) {
-        return getExpiration(token).before(new Date());
+        return getExpiration(token).after(new Date());
     }
 }

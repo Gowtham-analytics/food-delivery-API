@@ -36,6 +36,7 @@ public class Order {
     @Column(name = "order_time", nullable = false, updatable = false)
     private LocalTime orderTime;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "order_status")
     private OrderStatus status;
 

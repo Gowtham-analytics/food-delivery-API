@@ -23,6 +23,7 @@ public class UserEntity {
     @Column(name = "password", nullable = false, updatable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, updatable = false)
     private UserRole role;
 

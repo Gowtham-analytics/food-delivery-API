@@ -1,4 +1,4 @@
-package com.fooddelivery.fooddeliveryapi.Controllers;
+package com.fooddelivery.fooddeliveryapi.controllers;
 
 import com.fooddelivery.fooddeliveryapi.domain.dto.create.MenuDishCreateDto;
 import com.fooddelivery.fooddeliveryapi.domain.dto.response.MenuDishResponseDto;
@@ -9,6 +9,7 @@ import com.fooddelivery.fooddeliveryapi.services.MenuDishService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,6 +40,7 @@ public class MenuDishController {
         return menuDishMapper.toResponseDto(menuDish);
     }
 
+    @PreAuthorize("hasRole('OWNER')")
     @PostMapping
     public ResponseEntity<MenuDishCreateDto> createMenuDish(
             @PathVariable("restaurant_id") Long restaurantId,
@@ -50,6 +52,7 @@ public class MenuDishController {
                 .body(menuDishMapper.toCreateDto(savedMenuDish));
     }
 
+    @PreAuthorize("hasRole('OWNER')")
     @PatchMapping(path = "/{menu_dish_id}")
     public MenuDishUpdateDto partialUpdateMenuDish(
             @PathVariable("restaurant_id") Long restaurantId,
@@ -64,6 +67,7 @@ public class MenuDishController {
                         menuDishMapper.fromUpdateDto(menuDishUpdateDto)));
     }
 
+    @PreAuthorize("hasRole('OWNER')")
     @PutMapping(path = "/{menu_dish_id}")
     public MenuDishUpdateDto fullUpdateMenuDish(
             @PathVariable("restaurant_id") Long restaurantId,
@@ -78,6 +82,7 @@ public class MenuDishController {
                         menuDishMapper.fromUpdateDto(menuDishUpdateDto)));
     }
 
+    @PreAuthorize("hasRole('OWNER')")
     @DeleteMapping(path = "/{menu_dish_id}")
     public void deleteMenuDish(
             @PathVariable("restaurant_id") Long restaurantId,

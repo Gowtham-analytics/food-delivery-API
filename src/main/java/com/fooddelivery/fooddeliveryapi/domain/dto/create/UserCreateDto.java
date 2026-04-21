@@ -1,6 +1,6 @@
 package com.fooddelivery.fooddeliveryapi.domain.dto.create;
 
-import com.fooddelivery.fooddeliveryapi.domain.entities.UserRole;
+import com.fooddelivery.fooddeliveryapi.enums.UserRole;
 import jakarta.validation.constraints.*;
 
 public record UserCreateDto(

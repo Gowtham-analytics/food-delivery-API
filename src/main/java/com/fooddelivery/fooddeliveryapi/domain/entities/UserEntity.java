@@ -1,5 +1,6 @@
 package com.fooddelivery.fooddeliveryapi.domain.entities;
 
+import com.fooddelivery.fooddeliveryapi.enums.UserRole;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

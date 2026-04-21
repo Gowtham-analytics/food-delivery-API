@@ -1,6 +1,5 @@
 package com.fooddelivery.fooddeliveryapi.config;
 
-import com.fooddelivery.fooddeliveryapi.domain.entities.UserRole;
 import com.fooddelivery.fooddeliveryapi.util.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,8 +36,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/sign-up").permitAll()
                         .requestMatchers("/user/log-in/authenticate").permitAll()
-                        .requestMatchers("/restaurants/**")
-                        .hasRole(UserRole.CUSTOMER.name())
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

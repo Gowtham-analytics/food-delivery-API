@@ -1,6 +1,7 @@
 package com.fooddelivery.fooddeliveryapi.util;
 
-import com.fooddelivery.fooddeliveryapi.services.Impl.JwtServiceImpl;
+import com.fooddelivery.fooddeliveryapi.enums.UserRole;
+import com.fooddelivery.fooddeliveryapi.services.impl.JwtServiceImpl;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,6 +15,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -37,11 +39,15 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if(token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             Claims claims = jwtServiceImpl.verifySignatureAndExtractClaims(token);
-            String role = claims.get("Role", String.class);
+            UserRole role = UserRole.valueOf(claims.get("Role", String.class));
 
-            List<SimpleGrantedAuthority> simpleGrantedAuthorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
+            List<SimpleGrantedAuthority> simpleGrantedAuthorities = new ArrayList<>();
+            simpleGrantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + role.name()));
+            role.getPermissions().forEach(permission -> {
+                simpleGrantedAuthorities.add(new SimpleGrantedAuthority(permission.getCode()));
+            });
 
-            if(jwtServiceImpl.isTokenExpired(token)) {
+            if(jwtServiceImpl.isTokenValid(token)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                         new UsernamePasswordAuthenticationToken(claims.getSubject(), null, simpleGrantedAuthorities);
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

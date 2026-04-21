@@ -1,8 +1,9 @@
-package com.fooddelivery.fooddeliveryapi.Controllers;
+package com.fooddelivery.fooddeliveryapi.controllers;
 
 import com.fooddelivery.fooddeliveryapi.domain.dto.create.UserCreateDto;
-import com.fooddelivery.fooddeliveryapi.services.Impl.JwtServiceImpl;
-import com.fooddelivery.fooddeliveryapi.services.Impl.UserServiceImpl;
+import com.fooddelivery.fooddeliveryapi.domain.dto.request.UserLoginRequestDto;
+import com.fooddelivery.fooddeliveryapi.services.impl.JwtServiceImpl;
+import com.fooddelivery.fooddeliveryapi.services.impl.UserServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -21,12 +24,12 @@ public class UserController {
 
     private final AuthenticationManager authenticationManager;
 
-    private final JwtServiceImpl jwtSecurity;
+    private final JwtServiceImpl jwtServiceImpl;
 
-    public UserController(UserServiceImpl userServiceImpl, AuthenticationManager authenticationManager, JwtServiceImpl jwtSecurity) {
+    public UserController(UserServiceImpl userServiceImpl, AuthenticationManager authenticationManager, JwtServiceImpl jwtServiceImpl) {
         this.userServiceImpl = userServiceImpl;
         this.authenticationManager = authenticationManager;
-        this.jwtSecurity = jwtSecurity;
+        this.jwtServiceImpl = jwtServiceImpl;
     }
 
     @PostMapping("/sign-up")
@@ -42,13 +45,13 @@ public class UserController {
 
     @PostMapping("/log-in/authenticate")
     public String authenticateUser(
-            @RequestBody @Valid UserCreateDto userCreateDto
+            @RequestBody @Valid UserLoginRequestDto userLoginRequestDto
     )
     {
         Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        userCreateDto.username(),
-                        userCreateDto.password())
+                        userLoginRequestDto.username(),
+                        userLoginRequestDto.password())
         );
 
         if(authenticate.isAuthenticated()) {
@@ -56,12 +59,14 @@ public class UserController {
             String role = authenticate
                     .getAuthorities()
                     .stream()
-                    .findFirst()
                     .map(GrantedAuthority::getAuthority)
+                    .filter(Objects::nonNull)
+                    .filter(auth -> auth.startsWith("ROLE_"))
+                    .findFirst()
                     .map(r -> r.replace("ROLE_", ""))
                     .orElse(null);
 
-            return jwtSecurity.generateToken(userCreateDto.username(), role);
+            return jwtServiceImpl.generateToken(userLoginRequestDto.username(), role);
         }
 
         return null;

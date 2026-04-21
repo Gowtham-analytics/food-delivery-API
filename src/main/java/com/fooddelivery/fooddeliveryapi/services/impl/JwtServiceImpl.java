@@ -1,4 +1,4 @@
-package com.fooddelivery.fooddeliveryapi.services.Impl;
+package com.fooddelivery.fooddeliveryapi.services.impl;
 
 import com.fooddelivery.fooddeliveryapi.services.JwtService;
 import com.fooddelivery.fooddeliveryapi.util.JwtSecurityKey;
@@ -50,7 +50,7 @@ public class JwtServiceImpl implements JwtService {
         return verifySignatureAndExtractClaims(token).getExpiration();
     }
 
-    public boolean isTokenExpired(String token) {
+    public boolean isTokenValid(String token) {
         return getExpiration(token).after(new Date());
     }
 }

@@ -1,6 +1,6 @@
-package com.fooddelivery.fooddeliveryapi.services.Impl;
+package com.fooddelivery.fooddeliveryapi.services.impl;
 
-import com.fooddelivery.fooddeliveryapi.Exceptions.ResourceNotFoundException;
+import com.fooddelivery.fooddeliveryapi.exceptions.ResourceNotFoundException;
 import com.fooddelivery.fooddeliveryapi.domain.entities.MenuDish;
 import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
 import com.fooddelivery.fooddeliveryapi.repositories.MenuDishRepository;

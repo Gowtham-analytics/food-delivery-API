@@ -94,7 +94,7 @@ public class MenuDishServiceImplTests {
         when(restaurantRepository.findById(id)).thenReturn(Optional.of(testRestaurant));
         when(menuDishRepository.save(any(MenuDish.class))).thenReturn(testMenuDish);
 
-        MenuDish result = menuDishService.createMenuDish(id, testMenuDish);
+        MenuDish result = menuDishService.createMenuDish(id, testMenuDish, "username");
 
         assertEquals(testMenuDish.getName(), result.getName());
         assertEquals(testMenuDish.getPrice(), result.getPrice());
@@ -112,7 +112,7 @@ public class MenuDishServiceImplTests {
         when(restaurantRepository.findById(id)).thenReturn(Optional.empty());
 
         assertThrows(IllegalArgumentException.class,
-                () -> menuDishService.createMenuDish(id, testMenuDish));
+                () -> menuDishService.createMenuDish(id, testMenuDish, "username"));
     }
 
     @Test
@@ -129,7 +129,7 @@ public class MenuDishServiceImplTests {
         when(menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId)).thenReturn(Optional.of(testMenuDish));
         when(menuDishRepository.save(testMenuDish)).thenReturn(testMenuDish);
 
-        MenuDish result = menuDishService.partialUpdate(restaurantId, menuDishId, testMenuDish);
+        MenuDish result = menuDishService.partialUpdate(restaurantId, menuDishId, testMenuDish, "username");
 
         assertEquals(result.getName(), testMenuDish.getName());
         assertEquals(result.getPrice(), testMenuDish.getPrice());
@@ -151,7 +151,7 @@ public class MenuDishServiceImplTests {
         when(menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId)).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class,
-                () -> menuDishService.partialUpdate(restaurantId, menuDishId, testMenuDish));
+                () -> menuDishService.partialUpdate(restaurantId, menuDishId, testMenuDish, "username"));
     }
 
     @Test
@@ -169,7 +169,7 @@ public class MenuDishServiceImplTests {
         when(menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId)).thenReturn(Optional.of(testMenuDish));
         when(menuDishRepository.save(testMenuDish)).thenReturn(testMenuDish);
 
-        MenuDish result = menuDishService.fullUpdate(restaurantId, menuDishId, testMenuDish);
+        MenuDish result = menuDishService.fullUpdate(restaurantId, menuDishId, testMenuDish, "username");
 
         assertEquals(result.getName(), testMenuDish.getName());
         assertEquals(result.getPrice(), testMenuDish.getPrice());
@@ -192,7 +192,7 @@ public class MenuDishServiceImplTests {
         when(menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId)).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class,
-                () -> menuDishService.partialUpdate(restaurantId, menuDishId, testMenuDish));
+                () -> menuDishService.partialUpdate(restaurantId, menuDishId, testMenuDish, "username"));
 
     }
 }

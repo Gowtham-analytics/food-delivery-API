@@ -1,22 +1,31 @@
 package com.fooddelivery.fooddeliveryapi.services.impl;
 
+import com.fooddelivery.fooddeliveryapi.domain.entities.UserEntity;
 import com.fooddelivery.fooddeliveryapi.exceptions.ResourceNotFoundException;
 import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
 import com.fooddelivery.fooddeliveryapi.repositories.RestaurantRepository;
+import com.fooddelivery.fooddeliveryapi.repositories.UserRepository;
 import com.fooddelivery.fooddeliveryapi.services.RestaurantService;
+import com.fooddelivery.fooddeliveryapi.services.UserService;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
 
-    public RestaurantServiceImpl(RestaurantRepository restaurantRepository) {
+    private final UserService userService;
+
+    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, UserService userService) {
         this.restaurantRepository = restaurantRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -26,7 +35,9 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public Restaurant createRestaurant(Restaurant restaurant) {
+    public Restaurant createRestaurant(Restaurant restaurant, String username) {
+
+        UserEntity userEntity = userService.getUserFromUsername(username);
 
         LocalDateTime now = LocalDateTime.now();
 
@@ -37,6 +48,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                         restaurant.getLocation(),
                         Collections.emptyList(),
                         Collections.emptyList(),
+                        userEntity,
                         now,
                         now
                 )
@@ -51,23 +63,21 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public Restaurant partialUpdateRestaurant(Long restaurantId, Restaurant restaurant) {
+    public Restaurant partialUpdateRestaurant(Long restaurantId, Restaurant restaurant, String username) {
 
-        return restaurantRepository.findById(restaurantId)
-                .map(existing ->
-                        {
+        Restaurant existing = restaurantRepository.findByIdAndUserEntityUsername(restaurantId, username)
+                .orElseThrow(() -> new AccessDeniedException("You cannot modify this Restaurant"));
 
-                            if (restaurant.getName() != null && !restaurant.getName().isBlank()) {
-                                existing.setName(restaurant.getName());
-                            }
 
-                            if (restaurant.getLocation() != null && !restaurant.getLocation().isBlank()) {
-                                existing.setLocation(restaurant.getLocation());
-                            }
+        if (restaurant.getName() != null && !restaurant.getName().isBlank()) {
+            existing.setName(restaurant.getName());
+        }
 
-                            return restaurantRepository.save(existing);
-                        }
-                ).orElseThrow(() -> new ResourceNotFoundException("Restaurant does not exist!"));
+        if (restaurant.getLocation() != null && !restaurant.getLocation().isBlank()) {
+            existing.setLocation(restaurant.getLocation());
+        }
+
+        return restaurantRepository.save(existing);
     }
 
     @Override
@@ -88,11 +98,15 @@ public class RestaurantServiceImpl implements RestaurantService {
                     existing.setLocation(restaurant.getLocation());
                     return restaurantRepository.save(existing);
                 }
-        ).orElseThrow(() -> new ResourceNotFoundException("Restaurant does not exist!"));
+        ).orElseThrow(() -> new ResourceNotFoundException("Restaurant does not exist"));
     }
 
     @Override
-    public void deleteRestaurant(Long restaurantId) {
+    public void deleteRestaurant(Long restaurantId, String username) {
+
+        Restaurant existing = restaurantRepository.findByIdAndUserEntityUsername(restaurantId, username)
+                .orElseThrow(() -> new AccessDeniedException("Not allowed"));
+
         restaurantRepository.deleteById(restaurantId);
     }
 }

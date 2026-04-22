@@ -25,8 +25,12 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<MenuDish> menuDish = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private List<Order> order = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity userEntity;
 
     @Column(name = "created", nullable = false, updatable = false)
     private LocalDateTime created;
@@ -37,12 +41,13 @@ public class Restaurant {
     public Restaurant() {
     }
 
-    public Restaurant(Long id, String name, String location, List<MenuDish> menuDish, List<Order> order, LocalDateTime created, LocalDateTime updated) {
+    public Restaurant(Long id, String name, String location, List<MenuDish> menuDish, List<Order> order, UserEntity userEntity, LocalDateTime created, LocalDateTime updated) {
         this.id = id;
         this.name = name;
         this.location = location;
         this.menuDish = menuDish;
         this.order = order;
+        this.userEntity = userEntity;
         this.created = created;
         this.updated = updated;
     }
@@ -87,6 +92,14 @@ public class Restaurant {
         this.order = order;
     }
 
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
+
     public LocalDateTime getCreated() {
         return created;
     }
@@ -107,12 +120,12 @@ public class Restaurant {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Restaurant that = (Restaurant) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(location, that.location) && Objects.equals(menuDish, that.menuDish) && Objects.equals(order, that.order) && Objects.equals(created, that.created) && Objects.equals(updated, that.updated);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(location, that.location) && Objects.equals(menuDish, that.menuDish) && Objects.equals(order, that.order) && Objects.equals(userEntity, that.userEntity) && Objects.equals(created, that.created) && Objects.equals(updated, that.updated);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, location, menuDish, order, created, updated);
+        return Objects.hash(id, name, location, menuDish, order, userEntity, created, updated);
     }
 
     @Override
@@ -123,6 +136,7 @@ public class Restaurant {
                 ", location='" + location + '\'' +
                 ", menuDish=" + menuDish +
                 ", order=" + order +
+                ", userEntity=" + userEntity +
                 ", created=" + created +
                 ", updated=" + updated +
                 '}';

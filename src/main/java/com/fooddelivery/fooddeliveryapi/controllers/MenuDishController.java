@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,11 +27,13 @@ public class MenuDishController {
         this.menuDishMapper = menuDishMapper;
     }
 
+    @PreAuthorize("hasAuthority('VIEW_MENU_DISH')")
     @GetMapping
     public List<MenuDishResponseDto> listMenuDishes(@PathVariable("restaurant_id") Long restaurantId) {
         return menuDishService.listMenuDishes(restaurantId).stream().map(menuDishMapper::toResponseDto).toList();
     }
 
+    @PreAuthorize("hasAuthority('VIEW_MENU_DISH')")
     @GetMapping(path = "/{menu_dish_id}")
     public MenuDishResponseDto menuDish(
             @PathVariable("restaurant_id") Long restaurantId,
@@ -40,55 +43,73 @@ public class MenuDishController {
         return menuDishMapper.toResponseDto(menuDish);
     }
 
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasAuthority('ADD_MENU_DISH')")
     @PostMapping
     public ResponseEntity<MenuDishCreateDto> createMenuDish(
             @PathVariable("restaurant_id") Long restaurantId,
-            @RequestBody @Valid MenuDishCreateDto menuDishCreateDto
+            @RequestBody @Valid MenuDishCreateDto menuDishCreateDto,
+            Authentication authentication
     )
     {
-        MenuDish savedMenuDish = menuDishService.createMenuDish(restaurantId, menuDishMapper.fromCreateDto(menuDishCreateDto));
+        String username = authentication.getName();
+
+        MenuDish savedMenuDish = menuDishService.createMenuDish(
+                restaurantId,
+                menuDishMapper.fromCreateDto(menuDishCreateDto),
+                username);
+
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(menuDishMapper.toCreateDto(savedMenuDish));
     }
 
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasAuthority('UPDATE_MENU_DISH')")
     @PatchMapping(path = "/{menu_dish_id}")
     public MenuDishUpdateDto partialUpdateMenuDish(
             @PathVariable("restaurant_id") Long restaurantId,
             @PathVariable("menu_dish_id") Long menuDishId,
-            @RequestBody MenuDishUpdateDto menuDishUpdateDto
+            @RequestBody MenuDishUpdateDto menuDishUpdateDto,
+            Authentication authentication
     )
     {
+        String username = authentication.getName();;
+
         return menuDishMapper.toUpdateDto(
                 menuDishService.partialUpdate(
                         restaurantId,
                         menuDishId,
-                        menuDishMapper.fromUpdateDto(menuDishUpdateDto)));
+                        menuDishMapper.fromUpdateDto(menuDishUpdateDto),
+                        username));
     }
 
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasAuthority('UPDATE_MENU_DISH')")
     @PutMapping(path = "/{menu_dish_id}")
     public MenuDishUpdateDto fullUpdateMenuDish(
             @PathVariable("restaurant_id") Long restaurantId,
             @PathVariable("menu_dish_id") Long menuDishId,
-            @RequestBody MenuDishUpdateDto menuDishUpdateDto
+            @RequestBody MenuDishUpdateDto menuDishUpdateDto,
+            Authentication authentication
     )
     {
+        String username = authentication.getName();
+
         return menuDishMapper.toUpdateDto(
                 menuDishService.fullUpdate(
                         restaurantId,
                         menuDishId,
-                        menuDishMapper.fromUpdateDto(menuDishUpdateDto)));
+                        menuDishMapper.fromUpdateDto(menuDishUpdateDto),
+                        username));
     }
 
-    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasAuthority('DELETE_MENU_DISH')")
     @DeleteMapping(path = "/{menu_dish_id}")
     public void deleteMenuDish(
             @PathVariable("restaurant_id") Long restaurantId,
-            @PathVariable("menu_dish_id") Long menuDishId
+            @PathVariable("menu_dish_id") Long menuDishId,
+            Authentication authentication
     )
     {
-        menuDishService.deleteMenuDish(restaurantId, menuDishId);
+        String username = authentication.getName();
+
+        menuDishService.deleteMenuDish(restaurantId, menuDishId, username);
     }
 }

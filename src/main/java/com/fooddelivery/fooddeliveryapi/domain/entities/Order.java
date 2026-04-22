@@ -24,12 +24,12 @@ public class Order {
     private List<OrderItem> orderItemsList = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
-
-    @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity userEntity;
 
     @Column(name = "order_date", nullable = false, updatable = false)
     private LocalDate orderDate;
@@ -44,12 +44,12 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long id, Double totalPrice, List<OrderItem> orderItemsList, Customer customer, Restaurant restaurant, LocalDate orderDate, LocalTime orderTime, OrderStatus status) {
+    public Order(Long id, Double totalPrice, List<OrderItem> orderItemsList, Restaurant restaurant, UserEntity userEntity, LocalDate orderDate, LocalTime orderTime, OrderStatus status) {
         this.id = id;
         this.totalPrice = totalPrice;
         this.orderItemsList = orderItemsList;
-        this.customer = customer;
         this.restaurant = restaurant;
+        this.userEntity = userEntity;
         this.orderDate = orderDate;
         this.orderTime = orderTime;
         this.status = status;
@@ -79,20 +79,20 @@ public class Order {
         this.orderItemsList = orderItemsList;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
     public Restaurant getRestaurant() {
         return restaurant;
     }
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 
     public LocalDate getOrderDate() {
@@ -123,12 +123,12 @@ public class Order {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return Objects.equals(id, order.id) && Objects.equals(totalPrice, order.totalPrice) && Objects.equals(orderItemsList, order.orderItemsList) && Objects.equals(customer, order.customer) && Objects.equals(restaurant, order.restaurant) && Objects.equals(orderDate, order.orderDate) && Objects.equals(orderTime, order.orderTime) && status == order.status;
+        return Objects.equals(id, order.id) && Objects.equals(totalPrice, order.totalPrice) && Objects.equals(orderItemsList, order.orderItemsList) && Objects.equals(restaurant, order.restaurant) && Objects.equals(userEntity, order.userEntity) && Objects.equals(orderDate, order.orderDate) && Objects.equals(orderTime, order.orderTime) && status == order.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, totalPrice, orderItemsList, customer, restaurant, orderDate, orderTime, status);
+        return Objects.hash(id, totalPrice, orderItemsList, restaurant, userEntity, orderDate, orderTime, status);
     }
 
     @Override
@@ -137,8 +137,8 @@ public class Order {
                 "id=" + id +
                 ", totalPrice=" + totalPrice +
                 ", orderItemsList=" + orderItemsList +
-                ", customer=" + customer +
                 ", restaurant=" + restaurant +
+                ", userEntity=" + userEntity +
                 ", orderDate=" + orderDate +
                 ", orderTime=" + orderTime +
                 ", status=" + status +

@@ -79,8 +79,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 username,
                 null,
                 passwordEncoder.encode(password),
+                null,
+                null,
+                null,
+                null,
+                null,
                 userRole,
                 true,
+                null,
+                null,
                 now,
                 now
         );

@@ -7,6 +7,7 @@ import com.fooddelivery.fooddeliveryapi.repositories.MenuDishRepository;
 import com.fooddelivery.fooddeliveryapi.repositories.RestaurantRepository;
 import com.fooddelivery.fooddeliveryapi.services.MenuDishService;
 import jakarta.transaction.Transactional;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -40,10 +41,10 @@ public class MenuDishServiceImpl implements MenuDishService {
     }
 
     @Override
-    public MenuDish createMenuDish(Long restaurantId, MenuDish menuDish) {
+    public MenuDish createMenuDish(Long restaurantId, MenuDish menuDish, String username) {
 
-        Restaurant restaurant = restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid Restaurant ID!"));
+        Restaurant existing = restaurantRepository.findByIdAndUserEntityUsername(restaurantId, username)
+                .orElseThrow(() -> new AccessDeniedException("Not allowed"));
 
         if(menuDish.getVeg() == null) {
             menuDish.setVeg(true);
@@ -56,7 +57,7 @@ public class MenuDishServiceImpl implements MenuDishService {
                 menuDish.getName(),
                 menuDish.getPrice(),
                 menuDish.getVeg(),
-                restaurant,
+                existing,
                 now,
                 now
         );
@@ -65,56 +66,55 @@ public class MenuDishServiceImpl implements MenuDishService {
     }
 
     @Override
-    public MenuDish partialUpdate(Long restaurantId, Long menuDishId, MenuDish menuDish) {
+    public MenuDish partialUpdate(Long restaurantId, Long menuDishId, MenuDish menuDish, String username) {
 
-        return menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId).map(
-                existing -> {
+        MenuDish existing = menuDishRepository.findByIdAndRestaurantUserEntityUsername(menuDishId, username)
+                .orElseThrow(() -> new AccessDeniedException("Not allowed"));
 
-                    if(menuDish.getName() != null && !menuDish.getName().isBlank()) {
-                        existing.setName(menuDish.getName());
-                    }
+        if(menuDish.getName() != null && !menuDish.getName().isBlank()) {
+            existing.setName(menuDish.getName());
+        }
 
-                    if(menuDish.getPrice() != null && !menuDish.getPrice().isNaN()) {
-                        existing.setPrice(menuDish.getPrice());
-                    }
+        if(menuDish.getPrice() != null && !menuDish.getPrice().isNaN()) {
+            existing.setPrice(menuDish.getPrice());
+        }
 
-                    if(menuDish.getVeg() != null) {
-                        existing.setVeg(menuDish.getVeg());
-                    }
+        if(menuDish.getVeg() != null) {
+            existing.setVeg(menuDish.getVeg());
+        }
 
-                    return menuDishRepository.save(existing);
-                }
-        ).orElseThrow(() -> new ResourceNotFoundException("Menu Dish does not exist!"));
+        return menuDishRepository.save(existing);
     }
 
     @Override
-    public MenuDish fullUpdate(Long restaurantId, Long menuDishId, MenuDish menuDish) {
+    public MenuDish fullUpdate(Long restaurantId, Long menuDishId, MenuDish menuDish, String username) {
 
-        return menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId).map(
-                existing -> {
+        MenuDish existing = menuDishRepository.findByIdAndRestaurantUserEntityUsername(menuDishId, username)
+                .orElseThrow(() -> new AccessDeniedException("Not allowed"));
 
-                    if(menuDish.getName() == null || menuDish.getName().isBlank()) {
-                        throw new IllegalArgumentException("Name is required for update!");
-                    }
+        if(menuDish.getName() == null || menuDish.getName().isBlank()) {
+            throw new IllegalArgumentException("Name is required for update!");
+        }
 
-                    if(menuDish.getPrice() == null) {
-                        throw new IllegalArgumentException("Price is required for update!");
-                    }
+        if(menuDish.getPrice() == null) {
+            throw new IllegalArgumentException("Price is required for update!");
+        }
 
-                    if(menuDish.getVeg() != null) {
-                        existing.setVeg(menuDish.getVeg());
-                    }
+        if(menuDish.getVeg() != null) {
+            existing.setVeg(menuDish.getVeg());
+        }
 
-                    existing.setName(menuDish.getName());
-                    existing.setPrice(menuDish.getPrice());
-                    return menuDishRepository.save(existing);
-                }
-        ).orElseThrow(() -> new ResourceNotFoundException("Menu Dish cannot be found!"));
+        existing.setName(menuDish.getName());
+        existing.setPrice(menuDish.getPrice());
+        return menuDishRepository.save(existing);
     }
 
     @Transactional
     @Override
-    public void deleteMenuDish(Long restaurantId, Long menuDishId) {
+    public void deleteMenuDish(Long restaurantId, Long menuDishId, String username) {
+
+        MenuDish existing = menuDishRepository.findByIdAndRestaurantUserEntityUsername(menuDishId, username)
+                .orElseThrow(() -> new AccessDeniedException("Not allowed"));
 
         menuDishRepository.deleteByRestaurantIdAndId(restaurantId, menuDishId);
     }

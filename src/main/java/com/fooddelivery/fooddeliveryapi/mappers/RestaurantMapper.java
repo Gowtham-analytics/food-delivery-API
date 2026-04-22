@@ -26,6 +26,7 @@ public class RestaurantMapper {
                 Collections.emptyList(),
                 Collections.emptyList(),
                 null,
+                null,
                 null
         );
     }
@@ -45,6 +46,7 @@ public class RestaurantMapper {
                 Collections.emptyList(),
                 Collections.emptyList(),
                 null,
+                null,
                 null
         );
     }
@@ -63,6 +65,7 @@ public class RestaurantMapper {
                 restaurantResponseDto.location(),
                 Collections.emptyList(),
                 Collections.emptyList(),
+                null,
                 null,
                 null
         );

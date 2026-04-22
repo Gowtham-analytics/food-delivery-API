@@ -1,16 +1,19 @@
 package com.fooddelivery.fooddeliveryapi.services;
 
+import com.fooddelivery.fooddeliveryapi.domain.entities.UserEntity;
 import com.fooddelivery.fooddeliveryapi.exceptions.ResourceNotFoundException;
 import com.fooddelivery.fooddeliveryapi.domain.entities.MenuDish;
 import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
 import com.fooddelivery.fooddeliveryapi.repositories.MenuDishRepository;
 import com.fooddelivery.fooddeliveryapi.repositories.RestaurantRepository;
+import com.fooddelivery.fooddeliveryapi.repositories.UserRepository;
 import com.fooddelivery.fooddeliveryapi.services.impl.MenuDishServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.access.AccessDeniedException;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +30,9 @@ public class MenuDishServiceImplTests {
 
     @Mock
     MenuDishRepository menuDishRepository;
+
+    @Mock
+    UserRepository userRepository;
 
     @InjectMocks
     MenuDishServiceImpl menuDishService;
@@ -88,10 +94,11 @@ public class MenuDishServiceImplTests {
     public void createMenuDishMustCreateMenuDish() {
 
         Long id = 1L;
+
         Restaurant testRestaurant = new Restaurant();
         MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null);
 
-        when(restaurantRepository.findById(id)).thenReturn(Optional.of(testRestaurant));
+        when(restaurantRepository.findByIdAndUserEntityUsername(id, "username")).thenReturn(Optional.of(testRestaurant));
         when(menuDishRepository.save(any(MenuDish.class))).thenReturn(testMenuDish);
 
         MenuDish result = menuDishService.createMenuDish(id, testMenuDish, "username");
@@ -106,12 +113,12 @@ public class MenuDishServiceImplTests {
     public void createMenuDishShouldThrowExceptionWhenRestaurantDoesNotExist() {
 
         Long id = 1L;
-        Restaurant testRestaurant = new Restaurant();
-        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null);
 
-        when(restaurantRepository.findById(id)).thenReturn(Optional.empty());
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, null, null, null);
 
-        assertThrows(IllegalArgumentException.class,
+        when(restaurantRepository.findByIdAndUserEntityUsername(id, "username")).thenReturn(Optional.empty());
+
+        assertThrows(AccessDeniedException.class,
                 () -> menuDishService.createMenuDish(id, testMenuDish, "username"));
     }
 
@@ -120,13 +127,12 @@ public class MenuDishServiceImplTests {
 
         Long restaurantId = 1L;
         Long menuDishId = 1L;
-        Restaurant testRestaurant = new Restaurant();
-        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null);
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, null, null, null);
 
         testMenuDish.setName("Poori");
         testMenuDish.setPrice(30.00);
 
-        when(menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId)).thenReturn(Optional.of(testMenuDish));
+        when(menuDishRepository.findByIdAndRestaurantUserEntityUsername(menuDishId, "username")).thenReturn(Optional.of(testMenuDish));
         when(menuDishRepository.save(testMenuDish)).thenReturn(testMenuDish);
 
         MenuDish result = menuDishService.partialUpdate(restaurantId, menuDishId, testMenuDish, "username");
@@ -148,9 +154,9 @@ public class MenuDishServiceImplTests {
         testMenuDish.setName("Poori");
         testMenuDish.setPrice(30.00);
 
-        when(menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId)).thenReturn(Optional.empty());
+        when(menuDishRepository.findByIdAndRestaurantUserEntityUsername(menuDishId, "username")).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class,
+        assertThrows(AccessDeniedException.class,
                 () -> menuDishService.partialUpdate(restaurantId, menuDishId, testMenuDish, "username"));
     }
 
@@ -166,7 +172,7 @@ public class MenuDishServiceImplTests {
         testMenuDish.setPrice(30.00);
         testMenuDish.setVeg(true);
 
-        when(menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId)).thenReturn(Optional.of(testMenuDish));
+        when(menuDishRepository.findByIdAndRestaurantUserEntityUsername(menuDishId, "username")).thenReturn(Optional.of(testMenuDish));
         when(menuDishRepository.save(testMenuDish)).thenReturn(testMenuDish);
 
         MenuDish result = menuDishService.fullUpdate(restaurantId, menuDishId, testMenuDish, "username");
@@ -189,9 +195,9 @@ public class MenuDishServiceImplTests {
         testMenuDish.setPrice(30.00);
         testMenuDish.setVeg(true);
 
-        when(menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId)).thenReturn(Optional.empty());
+        when(menuDishRepository.findByIdAndRestaurantUserEntityUsername(menuDishId, "username")).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class,
+        assertThrows(AccessDeniedException.class,
                 () -> menuDishService.partialUpdate(restaurantId, menuDishId, testMenuDish, "username"));
 
     }

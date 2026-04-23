@@ -34,9 +34,15 @@ public class MenuDishServiceImpl implements MenuDishService {
     }
 
     @Override
-    public MenuDish menuDish(Long restaurantId, Long menuDishId) {
+    public MenuDish getMenuDish(Long restaurantId, Long menuDishId) {
 
         return menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId)
+                .orElseThrow(() -> new ResourceNotFoundException("Dish not found!"));
+    }
+
+    @Override
+    public MenuDish getMenuDishById(Long menuDishId) {
+        return menuDishRepository.findById(menuDishId)
                 .orElseThrow(() -> new ResourceNotFoundException("Dish not found!"));
     }
 

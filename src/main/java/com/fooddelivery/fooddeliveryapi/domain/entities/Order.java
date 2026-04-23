@@ -17,10 +17,10 @@ public class Order {
     @Column(name = "order_id", nullable = false, updatable = false)
     private Long id;
 
-    @Column(name = "total_price", nullable = false, updatable = false)
+    @Column(name = "total_price")
     private Double totalPrice;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
     private List<OrderItem> orderItemsList = new ArrayList<>();
 
     @ManyToOne
@@ -31,20 +31,20 @@ public class Order {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity userEntity;
 
-    @Column(name = "order_date", nullable = false, updatable = false)
+    @Column(name = "order_date")
     private LocalDate orderDate;
 
-    @Column(name = "order_time", nullable = false, updatable = false)
+    @Column(name = "order_time")
     private LocalTime orderTime;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status")
-    private OrderStatus status;
+    private OrderStatus orderStatus;
 
     public Order() {
     }
 
-    public Order(Long id, Double totalPrice, List<OrderItem> orderItemsList, Restaurant restaurant, UserEntity userEntity, LocalDate orderDate, LocalTime orderTime, OrderStatus status) {
+    public Order(Long id, Double totalPrice, List<OrderItem> orderItemsList, Restaurant restaurant, UserEntity userEntity, LocalDate orderDate, LocalTime orderTime, OrderStatus orderStatus) {
         this.id = id;
         this.totalPrice = totalPrice;
         this.orderItemsList = orderItemsList;
@@ -52,7 +52,7 @@ public class Order {
         this.userEntity = userEntity;
         this.orderDate = orderDate;
         this.orderTime = orderTime;
-        this.status = status;
+        this.orderStatus = orderStatus;
     }
 
     public Long getId() {
@@ -112,23 +112,23 @@ public class Order {
     }
 
     public OrderStatus getStatus() {
-        return status;
+        return orderStatus;
     }
 
-    public void setStatus(OrderStatus status) {
-        this.status = status;
+    public void setStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return Objects.equals(id, order.id) && Objects.equals(totalPrice, order.totalPrice) && Objects.equals(orderItemsList, order.orderItemsList) && Objects.equals(restaurant, order.restaurant) && Objects.equals(userEntity, order.userEntity) && Objects.equals(orderDate, order.orderDate) && Objects.equals(orderTime, order.orderTime) && status == order.status;
+        return Objects.equals(id, order.id) && Objects.equals(totalPrice, order.totalPrice) && Objects.equals(orderItemsList, order.orderItemsList) && Objects.equals(restaurant, order.restaurant) && Objects.equals(userEntity, order.userEntity) && Objects.equals(orderDate, order.orderDate) && Objects.equals(orderTime, order.orderTime) && orderStatus == order.orderStatus;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, totalPrice, orderItemsList, restaurant, userEntity, orderDate, orderTime, status);
+        return Objects.hash(id, totalPrice, orderItemsList, restaurant, userEntity, orderDate, orderTime, orderStatus);
     }
 
     @Override
@@ -141,7 +141,7 @@ public class Order {
                 ", userEntity=" + userEntity +
                 ", orderDate=" + orderDate +
                 ", orderTime=" + orderTime +
-                ", status=" + status +
+                ", orderStatus=" + orderStatus +
                 '}';
     }
 }

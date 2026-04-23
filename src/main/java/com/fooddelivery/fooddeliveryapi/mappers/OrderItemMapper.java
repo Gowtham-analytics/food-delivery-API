@@ -11,18 +11,14 @@ public class OrderItemMapper {
 
     public OrderItemCreateDto toCreateDto(OrderItem orderItem) {
         return new OrderItemCreateDto(
-                orderItem.getId(),
+                null,
                 orderItem.getQuantity()
         );
     }
 
-    public Double calculatePrice(int quantity, Double itemPrice) {
-        return quantity * itemPrice;
-    }
-
     public OrderItem fromCreateDto(OrderItemCreateDto orderItemCreateDto) {
         return new OrderItem(
-                orderItemCreateDto.menuDishId(),
+                null,
                 null,
                 null,
                 orderItemCreateDto.quantity(),
@@ -48,7 +44,8 @@ public class OrderItemMapper {
 
     public OrderItemResponseDto toResponseDto(OrderItem orderItem) {
         return new OrderItemResponseDto(
-                orderItem.getQuantity()
+                orderItem.getQuantity(),
+                orderItem.getOrderPrice()
         );
     }
 
@@ -58,7 +55,7 @@ public class OrderItemMapper {
                 null,
                 null,
                 orderItemResponseDto.quantity(),
-                null
+                orderItemResponseDto.totalPrice()
         );
     }
 }

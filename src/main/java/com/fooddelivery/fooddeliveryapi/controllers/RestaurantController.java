@@ -14,9 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,9 +55,9 @@ public class RestaurantController {
     @PostMapping
     public ResponseEntity<RestaurantCreateDto> createRestaurant(
             @RequestBody @Valid RestaurantCreateDto restaurantCreateDto,
-            Authentication authenicaton)
+            Authentication authentication)
     {
-        String username = authenicaton.getName();
+        String username = authentication.getName();
 
         Restaurant savedRestaurant = restaurantService.createRestaurant(restaurantMapper.fromCreateDto(restaurantCreateDto), username);
 

@@ -7,6 +7,9 @@ public record OrderItemResponseDto(
 
         @NotNull(message = "Quantity cannot be null!")
         @Positive(message = "Quantity cannot be negative or zero!")
-        int quantity
+        int quantity,
+
+        @Positive(message = "Total Price cannot be negative or zero!")
+        Double totalPrice
 ) {
 }

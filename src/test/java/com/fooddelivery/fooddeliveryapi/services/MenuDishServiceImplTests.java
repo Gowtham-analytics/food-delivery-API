@@ -1,6 +1,5 @@
 package com.fooddelivery.fooddeliveryapi.services;
 
-import com.fooddelivery.fooddeliveryapi.domain.entities.UserEntity;
 import com.fooddelivery.fooddeliveryapi.exceptions.ResourceNotFoundException;
 import com.fooddelivery.fooddeliveryapi.domain.entities.MenuDish;
 import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
@@ -38,7 +37,7 @@ public class MenuDishServiceImplTests {
     MenuDishServiceImpl menuDishService;
 
     @Test
-    public void listMenuDishesShouldReturnListOfMenuDishesWhenRestaurantExists() {
+    public void listMenuDishesShouldReturnListOfGetMenuDishesWhenRestaurantExists() {
 
         Long id = 1L;
         Restaurant testRestaurant = new Restaurant();
@@ -54,7 +53,7 @@ public class MenuDishServiceImplTests {
     }
 
     @Test
-    public void listMenuDishesShouldThrowExceptionWhenRestaurantDoesNotExist() {
+    public void listGetMenuDishesShouldThrowExceptionWhenRestaurantDoesNotExist() {
 
         Long id = 1L;
 
@@ -64,7 +63,7 @@ public class MenuDishServiceImplTests {
     }
 
     @Test
-    public void menuDishShouldReturnMenuDish() {
+    public void menuDishShouldReturnGetMenuDish() {
 
         Long restaurantId = 1L;
         Long menuDishId = 1L;
@@ -72,13 +71,13 @@ public class MenuDishServiceImplTests {
 
         when(menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId)).thenReturn(Optional.of(testMenuDish));
 
-        MenuDish result = menuDishService.menuDish(restaurantId, menuDishId);
+        MenuDish result = menuDishService.getMenuDish(restaurantId, menuDishId);
 
         assertEquals(testMenuDish, result);
     }
 
     @Test
-    public void menuDishShouldThrowExceptionWhenRestaurantOrMenuDishDoesNotExist() {
+    public void menuDishShouldThrowExceptionWhenRestaurantOrGetMenuDishDoesNotExist() {
 
         Long restaurantId = 1L;
         Long menuDishId = 1L;
@@ -87,11 +86,11 @@ public class MenuDishServiceImplTests {
                 .thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class,
-                () -> menuDishService.menuDish(restaurantId, menuDishId));
+                () -> menuDishService.getMenuDish(restaurantId, menuDishId));
     }
 
     @Test
-    public void createMenuDishMustCreateMenuDish() {
+    public void createMenuDishMustCreateGetMenuDish() {
 
         Long id = 1L;
 
@@ -110,7 +109,7 @@ public class MenuDishServiceImplTests {
     }
 
     @Test
-    public void createMenuDishShouldThrowExceptionWhenRestaurantDoesNotExist() {
+    public void createGetMenuDishShouldThrowExceptionWhenRestaurantDoesNotExist() {
 
         Long id = 1L;
 
@@ -123,7 +122,7 @@ public class MenuDishServiceImplTests {
     }
 
     @Test
-    public void partialUpdateShouldUpdateMenuDish() {
+    public void partialUpdateShouldUpdateGetMenuDish() {
 
         Long restaurantId = 1L;
         Long menuDishId = 1L;
@@ -144,7 +143,7 @@ public class MenuDishServiceImplTests {
     }
 
     @Test
-    public void partialUpdateShouldThrowExceptionWhenRestaurantOrMenuDishDoesNotExist() {
+    public void partialUpdateShouldThrowExceptionWhenRestaurantOrGetMenuDishDoesNotExist() {
 
         Long restaurantId = 1L;
         Long menuDishId = 1L;
@@ -161,7 +160,7 @@ public class MenuDishServiceImplTests {
     }
 
     @Test
-    public void fullUpdateShouldUpdateMenuDish() {
+    public void fullUpdateShouldUpdateGetMenuDish() {
 
         Long restaurantId = 1L;
         Long menuDishId = 1L;
@@ -184,7 +183,7 @@ public class MenuDishServiceImplTests {
     }
 
     @Test
-    public void fullUpdateShouldThrowExceptionWhenRestaurantOrMenuDishDoesNotExist() {
+    public void fullUpdateShouldThrowExceptionWhenRestaurantOrGetMenuDishDoesNotExist() {
 
         Long restaurantId = 1L;
         Long menuDishId = 1L;

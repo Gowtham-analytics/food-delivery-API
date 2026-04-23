@@ -24,18 +24,18 @@ public class OrderItem {
     @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    @Column(name = "order_price")
-    private Double orderPrice;
+    @Column(name = "total_price")
+    private Double totalPrice;
 
     public OrderItem() {
     }
 
-    public OrderItem(Long id, MenuDish menuDish, Order order, int quantity, Double orderPrice) {
+    public OrderItem(Long id, MenuDish menuDish, Order order, int quantity, Double totalPrice) {
         this.id = id;
         this.menuDish = menuDish;
         this.order = order;
         this.quantity = quantity;
-        this.orderPrice = orderPrice;
+        this.totalPrice = totalPrice;
     }
 
     public Long getId() {
@@ -71,23 +71,23 @@ public class OrderItem {
     }
 
     public Double getOrderPrice() {
-        return orderPrice;
+        return totalPrice;
     }
 
-    public void setOrderPrice(Double orderPrice) {
-        this.orderPrice = orderPrice;
+    public void setOrderPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         OrderItem orderItem = (OrderItem) o;
-        return quantity == orderItem.quantity && Objects.equals(id, orderItem.id) && Objects.equals(menuDish, orderItem.menuDish) && Objects.equals(order, orderItem.order) && Objects.equals(orderPrice, orderItem.orderPrice);
+        return quantity == orderItem.quantity && Objects.equals(id, orderItem.id) && Objects.equals(menuDish, orderItem.menuDish) && Objects.equals(order, orderItem.order) && Objects.equals(totalPrice, orderItem.totalPrice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, menuDish, order, quantity, orderPrice);
+        return Objects.hash(id, menuDish, order, quantity, totalPrice);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class OrderItem {
                 ", menuDish=" + menuDish +
                 ", order=" + order +
                 ", quantity=" + quantity +
-                ", orderPrice=" + orderPrice +
+                ", totalPrice=" + totalPrice +
                 '}';
     }
 }

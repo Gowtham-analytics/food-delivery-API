@@ -39,7 +39,7 @@ public class MenuDishController {
             @PathVariable("restaurant_id") Long restaurantId,
             @PathVariable("menu_dish_id") Long menuDishId)
     {
-        MenuDish menuDish = menuDishService.menuDish(restaurantId, menuDishId);
+        MenuDish menuDish = menuDishService.getMenuDish(restaurantId, menuDishId);
         return menuDishMapper.toResponseDto(menuDish);
     }
 

@@ -1,6 +1,7 @@
 package com.fooddelivery.fooddeliveryapi.controllers;
 
 import com.fooddelivery.fooddeliveryapi.exceptions.ResourceNotFoundException;
+import com.fooddelivery.fooddeliveryapi.exceptions.RestaurantOrderConflictException;
 import com.fooddelivery.fooddeliveryapi.exceptions.UsernameAlreadyExistsException;
 import com.fooddelivery.fooddeliveryapi.domain.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
@@ -62,6 +63,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UsernameAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleUsernameAlreadyExistsException(RuntimeException runtimeException, WebRequest request) {
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                runtimeException.getMessage(),
+                request.getDescription(false)
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(RestaurantOrderConflictException.class)
+    public ResponseEntity<ErrorResponse> handleRestaurantOrderConflictException(RuntimeException runtimeException, WebRequest request) {
 
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.CONFLICT.value(),

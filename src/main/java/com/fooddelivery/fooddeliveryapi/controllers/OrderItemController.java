@@ -17,11 +17,8 @@ public class OrderItemController {
 
     private final OrderItemService orderItemService;
 
-    private final OrderItemMapper orderItemMapper;
-
-    public OrderItemController(OrderItemService orderItemService, OrderItemMapper orderItemMapper) {
+    public OrderItemController(OrderItemService orderItemService) {
         this.orderItemService = orderItemService;
-        this.orderItemMapper = orderItemMapper;
     }
 
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")

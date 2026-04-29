@@ -9,8 +9,6 @@ import com.fooddelivery.fooddeliveryapi.enums.OrderStatus;
 import com.fooddelivery.fooddeliveryapi.repositories.OrderItemRepository;
 import com.fooddelivery.fooddeliveryapi.services.*;
 import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.Null;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,18 +20,15 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     private final OrderService orderService;
 
-    private final RestaurantService restaurantService;
-
     private final MenuDishService menuDishService;
 
     private final UserService userService;
 
     private final ConflictResponseService conflictResponseService;
 
-    public OrderItemServiceImpl(OrderItemRepository orderItemRepository, OrderService orderService, RestaurantService restaurantService, MenuDishService menuDishService, UserService userService, ConflictResponseService conflictResponseService) {
+    public OrderItemServiceImpl(OrderItemRepository orderItemRepository, OrderService orderService, MenuDishService menuDishService, UserService userService, ConflictResponseService conflictResponseService) {
         this.orderItemRepository = orderItemRepository;
         this.orderService = orderService;
-        this.restaurantService = restaurantService;
         this.menuDishService = menuDishService;
         this.userService = userService;
         this.conflictResponseService = conflictResponseService;
@@ -85,7 +80,6 @@ public class OrderItemServiceImpl implements OrderItemService {
 
         Restaurant restaurant = restaurantConflict.restaurant();
 
-
         int quantity = orderItemCreateDto.quantity();
 
         Double totalPrice = totalPrice(quantity, menuDish.getPrice());
@@ -132,7 +126,7 @@ public class OrderItemServiceImpl implements OrderItemService {
 
         Order existingOrder = restaurantConflict.order();
 
-        OrderItem updatedOrderItem = orderItemRepository.findByMenuDishIdAndUserEntityUsernameAndOrder(
+        OrderItem updatedOrderItem = orderItemRepository.findByMenuDishIdAndOrderUserEntityUsernameAndOrder(
                 orderItemCreateDto.menuDishId(),
                 username,
                 existingOrder)

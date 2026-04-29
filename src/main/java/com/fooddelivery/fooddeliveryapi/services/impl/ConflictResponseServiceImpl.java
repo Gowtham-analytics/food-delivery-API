@@ -4,7 +4,9 @@ import com.fooddelivery.fooddeliveryapi.domain.dto.response.RestaurantConflictRe
 import com.fooddelivery.fooddeliveryapi.domain.entities.Order;
 import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
 import com.fooddelivery.fooddeliveryapi.services.ConflictResponseService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ConflictResponseServiceImpl implements ConflictResponseService {
 
     @Override

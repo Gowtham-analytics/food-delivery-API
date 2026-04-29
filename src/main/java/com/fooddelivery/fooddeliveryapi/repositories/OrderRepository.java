@@ -10,6 +10,6 @@ import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    Optional<Order> findByRestaurantAndUserEntityAndOrderStatus(Restaurant restaurant, UserEntity userEntity, OrderStatus orderStatus);
-    Optional<Order> findByUserEntityAndOrderStatus(UserEntity userEntity, OrderStatus orderStatus);
+    Optional<Order> findByRestaurantIdAndUserEntityUsernameAndOrderStatus(Long restaurantId, String username, OrderStatus orderStatus);
+    Optional<Order> findByUserEntityUsernameAndOrderStatus(String username, OrderStatus orderStatus);
 }

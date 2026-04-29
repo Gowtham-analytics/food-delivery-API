@@ -1,7 +1,7 @@
 package com.fooddelivery.fooddeliveryapi.controllers;
 
 import com.fooddelivery.fooddeliveryapi.domain.dto.create.OrderItemCreateDto;
-import com.fooddelivery.fooddeliveryapi.domain.dto.response.OrderItemResponseDto;
+import com.fooddelivery.fooddeliveryapi.domain.dto.response.CartActionResponseDto;
 import com.fooddelivery.fooddeliveryapi.mappers.OrderItemMapper;
 import com.fooddelivery.fooddeliveryapi.services.OrderItemService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,16 +26,11 @@ public class OrderItemController {
 
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @PostMapping
-    public OrderItemResponseDto createOrderItem(
+    public CartActionResponseDto createOrderItem(
             @RequestBody OrderItemCreateDto orderItemCreateDto,
             Authentication authentication
     )
     {
-        String username = authentication.getName();
-
-        return orderItemMapper.toResponseDto(orderItemService.createOrUpdateOrderItem(
-                orderItemCreateDto.menuDishId(),
-                username,
-                orderItemMapper.fromCreateDto(orderItemCreateDto)));
+        return orderItemService.addOrderItem(orderItemCreateDto, authentication.getName());
     }
 }

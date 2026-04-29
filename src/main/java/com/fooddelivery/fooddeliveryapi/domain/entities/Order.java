@@ -20,6 +20,9 @@ public class Order {
     @Column(name = "total_price")
     private Double totalPrice;
 
+    @Column(name = "number_of_items")
+    private Integer numberOfItems;
+
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
     private List<OrderItem> orderItemsList = new ArrayList<>();
 
@@ -44,9 +47,10 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long id, Double totalPrice, List<OrderItem> orderItemsList, Restaurant restaurant, UserEntity userEntity, LocalDate orderDate, LocalTime orderTime, OrderStatus orderStatus) {
+    public Order(Long id, Double totalPrice, Integer numberOfItems, List<OrderItem> orderItemsList, Restaurant restaurant, UserEntity userEntity, LocalDate orderDate, LocalTime orderTime, OrderStatus orderStatus) {
         this.id = id;
         this.totalPrice = totalPrice;
+        this.numberOfItems = numberOfItems;
         this.orderItemsList = orderItemsList;
         this.restaurant = restaurant;
         this.userEntity = userEntity;
@@ -70,6 +74,10 @@ public class Order {
     public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
     }
+
+    public Integer getNumberOfItems() { return numberOfItems; }
+
+    public void setNumberOfItems(int numberOfItems) { this.numberOfItems = numberOfItems; }
 
     public List<OrderItem> getOrderItemsList() {
         return orderItemsList;
@@ -123,12 +131,12 @@ public class Order {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return Objects.equals(id, order.id) && Objects.equals(totalPrice, order.totalPrice) && Objects.equals(orderItemsList, order.orderItemsList) && Objects.equals(restaurant, order.restaurant) && Objects.equals(userEntity, order.userEntity) && Objects.equals(orderDate, order.orderDate) && Objects.equals(orderTime, order.orderTime) && orderStatus == order.orderStatus;
+        return numberOfItems == order.numberOfItems && Objects.equals(id, order.id) && Objects.equals(totalPrice, order.totalPrice) && Objects.equals(orderItemsList, order.orderItemsList) && Objects.equals(restaurant, order.restaurant) && Objects.equals(userEntity, order.userEntity) && Objects.equals(orderDate, order.orderDate) && Objects.equals(orderTime, order.orderTime) && orderStatus == order.orderStatus;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, totalPrice, orderItemsList, restaurant, userEntity, orderDate, orderTime, orderStatus);
+        return Objects.hash(id, totalPrice, numberOfItems, orderItemsList, restaurant, userEntity, orderDate, orderTime, orderStatus);
     }
 
     @Override
@@ -136,6 +144,7 @@ public class Order {
         return "Order{" +
                 "id=" + id +
                 ", totalPrice=" + totalPrice +
+                ", numberOfItems=" + numberOfItems +
                 ", orderItemsList=" + orderItemsList +
                 ", restaurant=" + restaurant +
                 ", userEntity=" + userEntity +

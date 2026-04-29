@@ -11,4 +11,5 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
     Optional<OrderItem> findByMenuDishIdAndOrder(Long menuDishId, Order order);
     List<OrderItem> findByOrderId(Long orderId);
+    Optional<OrderItem> findByMenuDishIdAndUserEntityUsernameAndOrder(Long menuDishId, String username, Order order);
 }

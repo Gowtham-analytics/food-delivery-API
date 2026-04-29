@@ -23,6 +23,7 @@ public class OrderMapper {
         return new Order(
                 null,
                 null,
+                null,
                 orderCreateDto.items().stream().map(orderItemMapper::fromCreateDto).toList(),
                 null,
                 null,

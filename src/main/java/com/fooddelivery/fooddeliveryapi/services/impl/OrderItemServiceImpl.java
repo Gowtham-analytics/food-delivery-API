@@ -1,10 +1,16 @@
 package com.fooddelivery.fooddeliveryapi.services.impl;
 
+import com.fooddelivery.fooddeliveryapi.domain.dto.create.OrderItemCreateDto;
+import com.fooddelivery.fooddeliveryapi.domain.dto.response.CartActionResponseDto;
+import com.fooddelivery.fooddeliveryapi.domain.dto.response.RestaurantConflictResponseDto;
 import com.fooddelivery.fooddeliveryapi.domain.entities.*;
+import com.fooddelivery.fooddeliveryapi.enums.CartStatus;
 import com.fooddelivery.fooddeliveryapi.enums.OrderStatus;
-import com.fooddelivery.fooddeliveryapi.repositories.*;
+import com.fooddelivery.fooddeliveryapi.repositories.OrderItemRepository;
 import com.fooddelivery.fooddeliveryapi.services.*;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.Null;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,88 +18,155 @@ import java.util.Optional;
 @Service
 public class OrderItemServiceImpl implements OrderItemService {
 
-    private final MenuDishService menuDishService;
-
-    private final RestaurantService restaurantService;
-
-    private final UserService userService;
-
     private final OrderItemRepository orderItemRepository;
 
     private final OrderService orderService;
 
-    public OrderItemServiceImpl(MenuDishService menuDishService, RestaurantService restaurantService, UserService userService, OrderItemRepository orderItemRepository, OrderService orderService) {
-        this.menuDishService = menuDishService;
-        this.restaurantService = restaurantService;
-        this.userService = userService;
+    private final RestaurantService restaurantService;
+
+    private final MenuDishService menuDishService;
+
+    private final UserService userService;
+
+    private final ConflictResponseService conflictResponseService;
+
+    public OrderItemServiceImpl(OrderItemRepository orderItemRepository, OrderService orderService, RestaurantService restaurantService, MenuDishService menuDishService, UserService userService, ConflictResponseService conflictResponseService) {
         this.orderItemRepository = orderItemRepository;
         this.orderService = orderService;
+        this.restaurantService = restaurantService;
+        this.menuDishService = menuDishService;
+        this.userService = userService;
+        this.conflictResponseService = conflictResponseService;
+    }
+
+    public RestaurantConflictResponseDto restaurantConflict(Long menuDishId, String username) {
+
+        MenuDish menuDish = menuDishService.getMenuDishById(menuDishId);
+
+        Optional<Order> order = orderService.getOrder(username, OrderStatus.CART_OPEN);
+
+        Restaurant restaurant = menuDish.getRestaurant();
+
+        if(order.isEmpty()) {
+            return conflictResponseService.createConflictResponseDto(
+                    false,
+                    restaurant,
+                    null
+            );
+        }
+
+        Long existingRestaurantId = order.get().getRestaurant().getId();
+        Long newRestaurantId = menuDish.getRestaurant().getId();
+
+        if(existingRestaurantId.equals(newRestaurantId)) {
+            return conflictResponseService.createConflictResponseDto(
+                    false,
+                    restaurant,
+                    order.get()
+            );
+        }
+
+        return conflictResponseService.createConflictResponseDto(
+                true,
+                restaurant,
+                order.get()
+        );
     }
 
     @Transactional
     @Override
-    public OrderItem createOrUpdateOrderItem(Long menuDishId, String username, OrderItem orderItem) {
+    public CartActionResponseDto addOrderItem(OrderItemCreateDto orderItemCreateDto, String username) {
 
-        MenuDish existingMenuDish = menuDishService.getMenuDishById(menuDishId);
-
-        Long restaurantId = existingMenuDish.getRestaurant().getId();
-
-        Restaurant restaurant = restaurantService.getRestaurant(restaurantId);
+        MenuDish menuDish = menuDishService.getMenuDishById(orderItemCreateDto.menuDishId());
 
         UserEntity userEntity = userService.getUserFromUsername(username);
 
-        Order existingOrder = orderService.getOrCreateOrder(
-                restaurant,
-                userEntity,
-                OrderStatus.CART_OPEN);
+        RestaurantConflictResponseDto restaurantConflict = restaurantConflict(orderItemCreateDto.menuDishId(), username);
 
-        OrderItem savedItem;
+        Restaurant restaurant = restaurantConflict.restaurant();
 
-        Optional<OrderItem> optionalOrderItem = orderItemRepository.findByMenuDishIdAndOrder(menuDishId, existingOrder);
 
-        Double addedPrice = totalPrice(orderItem.getQuantity(), existingMenuDish.getPrice());
+        int quantity = orderItemCreateDto.quantity();
 
-        if(optionalOrderItem.isPresent()) {
+        Double totalPrice = totalPrice(quantity, menuDish.getPrice());
 
-            OrderItem existingOrderItem = optionalOrderItem.get();
-
-            existingOrderItem.setQuantity(existingOrderItem.getQuantity() + orderItem.getQuantity());
-            existingOrderItem.setOrderPrice(addedPrice + existingOrderItem.getOrderPrice());
-
-            savedItem = orderItemRepository.save(existingOrderItem);
-        } else {
-            savedItem = createNewOrderItem(
-                    existingMenuDish,
-                    existingOrder,
-                    orderItem.getQuantity(),
-                    addedPrice);
+        if(restaurantConflict.ifConflict()) {
+            return new CartActionResponseDto(
+                    CartStatus.CONFLICT,
+                    restaurant.getName(),
+                    restaurantConflict.order().getRestaurant().getName(),
+                    restaurantConflict.order().getNumberOfItems()
+            );
         }
 
-        Double existingPrice = (existingOrder.getTotalPrice() == null) ? 0.0 : existingOrder.getTotalPrice();
-        Double totalPrice = existingPrice + addedPrice;
+        if(restaurantConflict.order() == null) {
 
-        existingOrder.setTotalPrice(totalPrice);
+            Order newOrder = orderService.createOrder(
+                    restaurant,
+                    userEntity,
+                    OrderStatus.CART_OPEN
+            );
 
-        orderService.updateOrderTotal(existingOrder);
+            OrderItem orderItem = new OrderItem(
+                    null,
+                    menuDish,
+                    newOrder,
+                    quantity,
+                    totalPrice
+            );
 
-        return savedItem;
-    }
+            orderItemRepository.save(orderItem);
 
-    @Override
-    public OrderItem createNewOrderItem(MenuDish menuDish, Order order, int quantity, Double totalPrice) {
+            newOrder.setNumberOfItems(quantity);
+            newOrder.setTotalPrice(totalPrice);
 
-        return orderItemRepository.save(
-                new OrderItem(
-                        null,
-                        menuDish,
-                        order,
-                        quantity,
-                        totalPrice
-                )
+            orderService.updateOrder(newOrder);
+
+            return new CartActionResponseDto(
+                    CartStatus.OK,
+                    restaurant.getName(),
+                    null,
+                    newOrder.getNumberOfItems()
+            );
+        }
+
+        Order existingOrder = restaurantConflict.order();
+
+        OrderItem updatedOrderItem = orderItemRepository.findByMenuDishIdAndUserEntityUsernameAndOrder(
+                orderItemCreateDto.menuDishId(),
+                username,
+                existingOrder)
+                        .map(existing -> {
+
+                            existing.setQuantity(existing.getQuantity() + quantity);
+                            existing.setOrderPrice(existing.getOrderPrice() + totalPrice);
+                            return orderItemRepository.save(existing);
+                                })
+                .orElseGet(() ->
+                        orderItemRepository.save(new OrderItem(
+                                null,
+                                menuDish,
+                                existingOrder,
+                                quantity,
+                                totalPrice
+                        ))
+                );
+
+
+        existingOrder.setNumberOfItems(existingOrder.getNumberOfItems() + quantity);
+        existingOrder.setTotalPrice(existingOrder.getTotalPrice() + totalPrice);
+
+        orderService.updateOrder(existingOrder);
+
+        return new CartActionResponseDto(
+                CartStatus.OK,
+                restaurant.getName(),
+                null,
+                existingOrder.getNumberOfItems()
         );
     }
 
-    private Double totalPrice(int quantity, Double price) {
+    public Double totalPrice(int quantity, Double price) {
         return quantity * price;
     }
 }

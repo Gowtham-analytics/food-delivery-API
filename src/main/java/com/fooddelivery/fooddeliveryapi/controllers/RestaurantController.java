@@ -4,10 +4,8 @@ import com.fooddelivery.fooddeliveryapi.domain.dto.create.RestaurantCreateDto;
 import com.fooddelivery.fooddeliveryapi.domain.dto.response.RestaurantResponseDto;
 import com.fooddelivery.fooddeliveryapi.domain.dto.update.RestaurantUpdateDto;
 import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
-import com.fooddelivery.fooddeliveryapi.domain.entities.UserEntity;
 import com.fooddelivery.fooddeliveryapi.mappers.RestaurantMapper;
 import com.fooddelivery.fooddeliveryapi.services.RestaurantService;
-import com.fooddelivery.fooddeliveryapi.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +23,10 @@ public class RestaurantController {
 
     private final RestaurantService restaurantService;
 
-    private final UserService userService;
-
     private final RestaurantMapper restaurantMapper;
 
-    public RestaurantController(RestaurantService restaurantService, UserService userService, RestaurantMapper restaurantMapper) {
+    public RestaurantController(RestaurantService restaurantService, RestaurantMapper restaurantMapper) {
         this.restaurantService = restaurantService;
-        this.userService = userService;
         this.restaurantMapper = restaurantMapper;
     }
 

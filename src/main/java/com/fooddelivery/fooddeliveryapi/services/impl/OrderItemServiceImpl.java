@@ -84,6 +84,7 @@ public class OrderItemServiceImpl implements OrderItemService {
 
         Double totalPrice = totalPrice(quantity, menuDish.getPrice());
 
+        //Conflict
         if(restaurantConflict.ifConflict()) {
             return new CartActionResponseDto(
                     CartStatus.CONFLICT,
@@ -93,6 +94,7 @@ public class OrderItemServiceImpl implements OrderItemService {
             );
         }
 
+        //New Order/Cart
         if(restaurantConflict.order() == null) {
 
             Order newOrder = orderService.createOrder(
@@ -124,9 +126,10 @@ public class OrderItemServiceImpl implements OrderItemService {
             );
         }
 
+        //Existing Order
         Order existingOrder = restaurantConflict.order();
 
-        OrderItem updatedOrderItem = orderItemRepository.findByMenuDishIdAndOrderUserEntityUsernameAndOrder(
+        orderItemRepository.findByMenuDishIdAndOrderUserEntityUsernameAndOrder(
                 orderItemCreateDto.menuDishId(),
                 username,
                 existingOrder)

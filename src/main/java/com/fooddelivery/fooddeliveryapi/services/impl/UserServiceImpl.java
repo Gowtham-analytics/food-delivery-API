@@ -3,7 +3,6 @@ package com.fooddelivery.fooddeliveryapi.services.impl;
 import com.fooddelivery.fooddeliveryapi.exceptions.UsernameAlreadyExistsException;
 import com.fooddelivery.fooddeliveryapi.domain.entities.UserEntity;
 import com.fooddelivery.fooddeliveryapi.enums.UserRole;
-import com.fooddelivery.fooddeliveryapi.permissions.Permission;
 import com.fooddelivery.fooddeliveryapi.repositories.UserRepository;
 import com.fooddelivery.fooddeliveryapi.services.UserService;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {

@@ -22,10 +22,10 @@ public class Restaurant {
     @Column(name = "location", nullable = false, updatable = true)
     private String location;
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<MenuDish> menuDish = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "restaurant")
     private List<Order> order = new ArrayList<>();
 
     @ManyToOne

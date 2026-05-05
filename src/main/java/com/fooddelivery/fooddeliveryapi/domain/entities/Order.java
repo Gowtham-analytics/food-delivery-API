@@ -131,7 +131,7 @@ public class Order {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return numberOfItems == order.numberOfItems && Objects.equals(id, order.id) && Objects.equals(totalPrice, order.totalPrice) && Objects.equals(orderItemsList, order.orderItemsList) && Objects.equals(restaurant, order.restaurant) && Objects.equals(userEntity, order.userEntity) && Objects.equals(orderDate, order.orderDate) && Objects.equals(orderTime, order.orderTime) && orderStatus == order.orderStatus;
+        return Objects.equals(numberOfItems, order.numberOfItems) && Objects.equals(id, order.id) && Objects.equals(totalPrice, order.totalPrice) && Objects.equals(orderItemsList, order.orderItemsList) && Objects.equals(restaurant, order.restaurant) && Objects.equals(userEntity, order.userEntity) && Objects.equals(orderDate, order.orderDate) && Objects.equals(orderTime, order.orderTime) && orderStatus == order.orderStatus;
     }
 
     @Override

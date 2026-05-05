@@ -2,7 +2,6 @@ package com.fooddelivery.fooddeliveryapi.controllers;
 
 import com.fooddelivery.fooddeliveryapi.domain.dto.create.OrderItemCreateDto;
 import com.fooddelivery.fooddeliveryapi.domain.dto.response.CartActionResponseDto;
-import com.fooddelivery.fooddeliveryapi.mappers.OrderItemMapper;
 import com.fooddelivery.fooddeliveryapi.services.OrderItemService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;

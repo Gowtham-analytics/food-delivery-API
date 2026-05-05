@@ -2,6 +2,7 @@ package com.fooddelivery.fooddeliveryapi.enums;
 
 import com.fooddelivery.fooddeliveryapi.permissions.Permission;
 import com.fooddelivery.fooddeliveryapi.permissions.impl.MenuDishPermission;
+import com.fooddelivery.fooddeliveryapi.permissions.impl.OrderPermission;
 import com.fooddelivery.fooddeliveryapi.permissions.impl.RestaurantPermission;
 
 import java.util.Collections;
@@ -10,7 +11,11 @@ import java.util.Set;
 public enum UserRole {
     CUSTOMER(Set.of(
             RestaurantPermission.VIEW,
-            MenuDishPermission.VIEW
+            MenuDishPermission.VIEW,
+            OrderPermission.VIEW,
+            OrderPermission.ADD,
+            OrderPermission.UPDATE,
+            OrderPermission.DELETE
     )),
     OWNER(Set.of(
             RestaurantPermission.VIEW,

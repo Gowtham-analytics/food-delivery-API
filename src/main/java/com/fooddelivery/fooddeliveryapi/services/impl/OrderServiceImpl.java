@@ -1,6 +1,5 @@
 package com.fooddelivery.fooddeliveryapi.services.impl;
 
-import com.fooddelivery.fooddeliveryapi.domain.dto.response.OrderResponseDto;
 import com.fooddelivery.fooddeliveryapi.domain.entities.Order;
 import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
 import com.fooddelivery.fooddeliveryapi.domain.entities.UserEntity;
@@ -8,8 +7,6 @@ import com.fooddelivery.fooddeliveryapi.enums.OrderStatus;
 import com.fooddelivery.fooddeliveryapi.mappers.OrderMapper;
 import com.fooddelivery.fooddeliveryapi.repositories.OrderRepository;
 import com.fooddelivery.fooddeliveryapi.services.OrderService;
-import jakarta.annotation.PostConstruct;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -57,12 +54,5 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> orderList(String username) {
 
         return orderRepository.findOrderWithRestaurantByUsername(username);
-    }
-
-    @PostConstruct
-    public void test() {
-        List<Order> orders = orderList("Gowtham");
-
-        System.out.println("Restaurant Name: " + orders.get(0).getRestaurant().getName());
     }
 }

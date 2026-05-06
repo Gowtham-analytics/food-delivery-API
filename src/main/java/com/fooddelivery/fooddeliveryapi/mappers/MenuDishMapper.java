@@ -51,6 +51,7 @@ public class MenuDishMapper {
 
     public MenuDishResponseDto toResponseDto(MenuDish menuDish) {
         return new MenuDishResponseDto(
+                menuDish.getId(),
                 menuDish.getName(),
                 menuDish.getPrice(),
                 menuDish.getVeg()
@@ -59,7 +60,7 @@ public class MenuDishMapper {
 
     public MenuDish fromResponseDto(MenuDishResponseDto menuDishResponseDto) {
         return new MenuDish(
-                null,
+                menuDishResponseDto.id(),
                 menuDishResponseDto.name(),
                 menuDishResponseDto.price(),
                 menuDishResponseDto.veg(),

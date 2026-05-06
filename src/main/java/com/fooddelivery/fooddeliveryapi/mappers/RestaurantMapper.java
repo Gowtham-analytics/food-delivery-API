@@ -53,6 +53,7 @@ public class RestaurantMapper {
 
     public RestaurantResponseDto toResponseDto(Restaurant restaurant) {
         return new RestaurantResponseDto(
+                restaurant.getId(),
                 restaurant.getName(),
                 restaurant.getLocation()
         );
@@ -60,7 +61,7 @@ public class RestaurantMapper {
 
     public Restaurant fromResponseDto(RestaurantResponseDto restaurantResponseDto) {
         return new Restaurant(
-                null,
+                restaurantResponseDto.id(),
                 restaurantResponseDto.name(),
                 restaurantResponseDto.location(),
                 Collections.emptyList(),

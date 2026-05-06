@@ -14,4 +14,5 @@ public interface OrderService {
     Order createOrder(Restaurant restaurant, UserEntity userEntity, OrderStatus orderStatus);
     void updateOrder(Order order);
     List<Order> orderList(String username);
+    Order getOrder(String username, Long id);
 }

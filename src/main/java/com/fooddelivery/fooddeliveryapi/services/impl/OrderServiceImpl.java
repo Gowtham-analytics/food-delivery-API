@@ -4,6 +4,7 @@ import com.fooddelivery.fooddeliveryapi.domain.entities.Order;
 import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
 import com.fooddelivery.fooddeliveryapi.domain.entities.UserEntity;
 import com.fooddelivery.fooddeliveryapi.enums.OrderStatus;
+import com.fooddelivery.fooddeliveryapi.exceptions.ResourceNotFoundException;
 import com.fooddelivery.fooddeliveryapi.mappers.OrderMapper;
 import com.fooddelivery.fooddeliveryapi.repositories.OrderRepository;
 import com.fooddelivery.fooddeliveryapi.services.OrderService;
@@ -18,11 +19,8 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
 
-    private final OrderMapper orderMapper;
-
-    public OrderServiceImpl(OrderRepository orderRepository, OrderMapper orderMapper) {
+    public OrderServiceImpl(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
-        this.orderMapper = orderMapper;
     }
 
     @Override
@@ -54,5 +52,11 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> orderList(String username) {
 
         return orderRepository.findOrderWithRestaurantByUsername(username);
+    }
+
+    @Override
+    public Order getOrder(String username, Long id) {
+        return orderRepository.findByUserEntityUsernameAndId(username, id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order cannot be found!"));
     }
 }

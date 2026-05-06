@@ -1,5 +1,6 @@
 package com.fooddelivery.fooddeliveryapi.repositories;
 
+import com.fooddelivery.fooddeliveryapi.domain.dto.response.OrderResponseDto;
 import com.fooddelivery.fooddeliveryapi.domain.entities.Order;
 import com.fooddelivery.fooddeliveryapi.enums.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     WHERE o.userEntity.username = :username
 """)
     List<Order> findOrderWithRestaurantByUsername(String username);
+
+    Optional<Order> findByUserEntityUsernameAndId(String username, Long id);
 }

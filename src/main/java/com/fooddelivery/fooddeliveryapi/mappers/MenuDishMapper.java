@@ -25,6 +25,9 @@ public class MenuDishMapper {
                 menuDishCreateDto.veg(),
                 null,
                 null,
+                null,
+                null,
+                null,
                 null
         );
     }
@@ -43,6 +46,9 @@ public class MenuDishMapper {
                 menuDishUpdateDto.name(),
                 menuDishUpdateDto.price(),
                 menuDishUpdateDto.veg(),
+                null,
+                null,
+                null,
                 null,
                 null,
                 null
@@ -64,6 +70,9 @@ public class MenuDishMapper {
                 menuDishResponseDto.name(),
                 menuDishResponseDto.price(),
                 menuDishResponseDto.veg(),
+                null,
+                null,
+                null,
                 null,
                 null,
                 null

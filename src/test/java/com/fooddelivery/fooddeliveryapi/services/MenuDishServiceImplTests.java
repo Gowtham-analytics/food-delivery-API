@@ -67,7 +67,7 @@ public class MenuDishServiceImplTests {
 
         Long restaurantId = 1L;
         Long menuDishId = 1L;
-        MenuDish testMenuDish = new MenuDish(1L, "testMenuDish", 50.00, true, null, null, null);
+        MenuDish testMenuDish = new MenuDish(1L, "testMenuDish", 50.00, true, null, null, null, null, null, null);
 
         when(menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId)).thenReturn(Optional.of(testMenuDish));
 
@@ -95,7 +95,7 @@ public class MenuDishServiceImplTests {
         Long id = 1L;
 
         Restaurant testRestaurant = new Restaurant();
-        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null);
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null, null, null, null);
 
         when(restaurantRepository.findByIdAndUserEntityUsername(id, "username")).thenReturn(Optional.of(testRestaurant));
         when(menuDishRepository.save(any(MenuDish.class))).thenReturn(testMenuDish);
@@ -113,7 +113,7 @@ public class MenuDishServiceImplTests {
 
         Long id = 1L;
 
-        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, null, null, null);
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, null, null, null, null, null, null);
 
         when(restaurantRepository.findByIdAndUserEntityUsername(id, "username")).thenReturn(Optional.empty());
 
@@ -126,7 +126,7 @@ public class MenuDishServiceImplTests {
 
         Long restaurantId = 1L;
         Long menuDishId = 1L;
-        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, null, null, null);
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, null, null, null, null, null, null);
 
         testMenuDish.setName("Poori");
         testMenuDish.setPrice(30.00);
@@ -148,7 +148,7 @@ public class MenuDishServiceImplTests {
         Long restaurantId = 1L;
         Long menuDishId = 1L;
         Restaurant testRestaurant = new Restaurant();
-        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null);
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null, null, null, null);
 
         testMenuDish.setName("Poori");
         testMenuDish.setPrice(30.00);
@@ -165,7 +165,7 @@ public class MenuDishServiceImplTests {
         Long restaurantId = 1L;
         Long menuDishId = 1L;
         Restaurant testRestaurant = new Restaurant();
-        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null);
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null, null, null, null);
 
         testMenuDish.setName("Poori");
         testMenuDish.setPrice(30.00);
@@ -188,7 +188,7 @@ public class MenuDishServiceImplTests {
         Long restaurantId = 1L;
         Long menuDishId = 1L;
         Restaurant testRestaurant = new Restaurant();
-        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null);
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null, null, null, null);
 
         testMenuDish.setName("Poori");
         testMenuDish.setPrice(30.00);

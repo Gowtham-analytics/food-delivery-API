@@ -64,6 +64,9 @@ public class MenuDishServiceImpl implements MenuDishService {
                 menuDish.getPrice(),
                 menuDish.getVeg(),
                 existing,
+                menuDish.getAvailable(),
+                menuDish.getStatus(),
+                menuDish.getDiscontinuedTime(),
                 now,
                 now
         );

@@ -101,7 +101,7 @@ public class MenuDishController {
     }
 
     @PreAuthorize("hasAuthority('DELETE_MENU_DISH')")
-    @PatchMapping(path = "/{menu_dish_id}")
+    @PatchMapping(path = "/{menu_dish_id}/life-cycle")
     public void discontinueMenuDish(
             @PathVariable("menu_dish_id") Long menuDishId,
             Authentication authentication

@@ -34,7 +34,7 @@ public class MenuDish {
     @Column(name = "status")
     private MenuDishStatus status;
 
-    @Column(name = "discontinued_time", nullable = false, updatable = false)
+    @Column(name = "discontinued_time")
     private LocalDateTime discontinuedTime;
 
     @Column(name = "created", nullable = false, updatable = false)

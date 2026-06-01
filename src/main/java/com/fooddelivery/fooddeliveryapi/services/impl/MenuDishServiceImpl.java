@@ -129,7 +129,10 @@ public class MenuDishServiceImpl implements MenuDishService {
             throw new IllegalStateException("Dish already discontinued!");
         }
 
+        LocalDateTime now = LocalDateTime.now();
+
         existing.setStatus(MenuDishStatus.DISCONTINUED);
+        existing.setDiscontinuedTime(now);
         menuDishRepository.save(existing);
     }
 

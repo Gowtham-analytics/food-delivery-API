@@ -1,5 +1,6 @@
 package com.fooddelivery.fooddeliveryapi.services;
 
+import com.fooddelivery.fooddeliveryapi.enums.MenuDishStatus;
 import com.fooddelivery.fooddeliveryapi.exceptions.ResourceNotFoundException;
 import com.fooddelivery.fooddeliveryapi.domain.entities.MenuDish;
 import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
@@ -44,7 +45,7 @@ public class MenuDishServiceImplTests {
         List<MenuDish> testList = List.of(new MenuDish(), new MenuDish());
 
         when(restaurantRepository.findById(id)).thenReturn(Optional.of(testRestaurant));
-        when(menuDishRepository.findByRestaurantId(id)).thenReturn(testList);
+        when(menuDishRepository.findByRestaurantIdAndStatus(id, MenuDishStatus.ACTIVE)).thenReturn(testList);
 
         List<MenuDish> result = menuDishService.listMenuDishes(id);
 
@@ -67,7 +68,7 @@ public class MenuDishServiceImplTests {
 
         Long restaurantId = 1L;
         Long menuDishId = 1L;
-        MenuDish testMenuDish = new MenuDish(1L, "testMenuDish", 50.00, true, null, null, null, null, null, null);
+        MenuDish testMenuDish = new MenuDish(1L, "testMenuDish", 50.00, true, null, false, null, null, null, null);
 
         when(menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId)).thenReturn(Optional.of(testMenuDish));
 
@@ -95,7 +96,7 @@ public class MenuDishServiceImplTests {
         Long id = 1L;
 
         Restaurant testRestaurant = new Restaurant();
-        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null, null, null, null);
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, false, MenuDishStatus.ACTIVE, null, null, null);
 
         when(restaurantRepository.findByIdAndUserEntityUsername(id, "username")).thenReturn(Optional.of(testRestaurant));
         when(menuDishRepository.save(any(MenuDish.class))).thenReturn(testMenuDish);
@@ -113,11 +114,11 @@ public class MenuDishServiceImplTests {
 
         Long id = 1L;
 
-        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, null, null, null, null, null, null);
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, null, false, MenuDishStatus.ACTIVE, null, null, null);
 
         when(restaurantRepository.findByIdAndUserEntityUsername(id, "username")).thenReturn(Optional.empty());
 
-        assertThrows(AccessDeniedException.class,
+        assertThrows(ResourceNotFoundException.class,
                 () -> menuDishService.createMenuDish(id, testMenuDish, "username"));
     }
 
@@ -126,12 +127,12 @@ public class MenuDishServiceImplTests {
 
         Long restaurantId = 1L;
         Long menuDishId = 1L;
-        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, null, null, null, null, null, null);
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, null, false, MenuDishStatus.ACTIVE, null, null, null);
 
         testMenuDish.setName("Poori");
         testMenuDish.setPrice(30.00);
 
-        when(menuDishRepository.findByIdAndRestaurantUserEntityUsername(menuDishId, "username")).thenReturn(Optional.of(testMenuDish));
+        when(menuDishRepository.findByIdAndStatusAndRestaurantUserEntityUsername(menuDishId, MenuDishStatus.ACTIVE, "username")).thenReturn(Optional.of(testMenuDish));
         when(menuDishRepository.save(testMenuDish)).thenReturn(testMenuDish);
 
         MenuDish result = menuDishService.partialUpdate(restaurantId, menuDishId, testMenuDish, "username");
@@ -148,14 +149,14 @@ public class MenuDishServiceImplTests {
         Long restaurantId = 1L;
         Long menuDishId = 1L;
         Restaurant testRestaurant = new Restaurant();
-        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null, null, null, null);
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, false, MenuDishStatus.ACTIVE, null, null, null);
 
         testMenuDish.setName("Poori");
         testMenuDish.setPrice(30.00);
 
-        when(menuDishRepository.findByIdAndRestaurantUserEntityUsername(menuDishId, "username")).thenReturn(Optional.empty());
+        when(menuDishRepository.findByIdAndStatusAndRestaurantUserEntityUsername(menuDishId, MenuDishStatus.ACTIVE, "username")).thenReturn(Optional.empty());
 
-        assertThrows(AccessDeniedException.class,
+        assertThrows(ResourceNotFoundException.class,
                 () -> menuDishService.partialUpdate(restaurantId, menuDishId, testMenuDish, "username"));
     }
 
@@ -165,13 +166,13 @@ public class MenuDishServiceImplTests {
         Long restaurantId = 1L;
         Long menuDishId = 1L;
         Restaurant testRestaurant = new Restaurant();
-        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null, null, null, null);
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, false, MenuDishStatus.ACTIVE, null, null, null);
 
         testMenuDish.setName("Poori");
         testMenuDish.setPrice(30.00);
         testMenuDish.setVeg(true);
 
-        when(menuDishRepository.findByIdAndRestaurantUserEntityUsername(menuDishId, "username")).thenReturn(Optional.of(testMenuDish));
+        when(menuDishRepository.findByIdAndStatusAndRestaurantUserEntityUsername(menuDishId, MenuDishStatus.ACTIVE, "username")).thenReturn(Optional.of(testMenuDish));
         when(menuDishRepository.save(testMenuDish)).thenReturn(testMenuDish);
 
         MenuDish result = menuDishService.fullUpdate(restaurantId, menuDishId, testMenuDish, "username");
@@ -188,15 +189,15 @@ public class MenuDishServiceImplTests {
         Long restaurantId = 1L;
         Long menuDishId = 1L;
         Restaurant testRestaurant = new Restaurant();
-        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, null, null, null, null, null);
+        MenuDish testMenuDish = new MenuDish(null, "Veg Cutlet", 50.00, true, testRestaurant, false, MenuDishStatus.ACTIVE, null, null, null);
 
         testMenuDish.setName("Poori");
         testMenuDish.setPrice(30.00);
         testMenuDish.setVeg(true);
 
-        when(menuDishRepository.findByIdAndRestaurantUserEntityUsername(menuDishId, "username")).thenReturn(Optional.empty());
+        when(menuDishRepository.findByIdAndStatusAndRestaurantUserEntityUsername(menuDishId, MenuDishStatus.ACTIVE, "username")).thenReturn(Optional.empty());
 
-        assertThrows(AccessDeniedException.class,
+        assertThrows(ResourceNotFoundException.class,
                 () -> menuDishService.partialUpdate(restaurantId, menuDishId, testMenuDish, "username"));
 
     }

@@ -10,6 +10,6 @@ public interface MenuDishRepository extends JpaRepository<MenuDish, Long> {
 
     List<MenuDish> findByRestaurantId(Long id);
     Optional<MenuDish> findByRestaurantIdAndId(Long restaurantId, Long menuDishId);
-    void deleteByRestaurantIdAndId(Long restaurantId, Long menuDishId);
+    int deleteByIdAndRestaurantUserEntityUsername(Long menuDishId, String username);
     Optional<MenuDish> findByIdAndRestaurantUserEntityUsername(Long menuDishId, String username);
 }

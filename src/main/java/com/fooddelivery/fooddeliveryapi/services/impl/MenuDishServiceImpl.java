@@ -117,11 +117,12 @@ public class MenuDishServiceImpl implements MenuDishService {
 
     @Transactional
     @Override
-    public void deleteMenuDish(Long restaurantId, Long menuDishId, String username) {
+    public void deleteMenuDish(Long menuDishId, String username) {
 
-        MenuDish existing = menuDishRepository.findByIdAndRestaurantUserEntityUsername(menuDishId, username)
-                .orElseThrow(() -> new AccessDeniedException("Not allowed"));
+        int delete = menuDishRepository.deleteByIdAndRestaurantUserEntityUsername(menuDishId, username);
 
-        menuDishRepository.deleteByRestaurantIdAndId(restaurantId, menuDishId);
+        if(delete == 0) {
+            throw new AccessDeniedException("Not allowed");
+        }
     }
 }

@@ -31,7 +31,7 @@ public class MenuDishServiceImpl implements MenuDishService {
         Restaurant restaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No restaurant in record!"));
 
-        return menuDishRepository.findByRestaurantId(id);
+        return menuDishRepository.findByRestaurantIdAndStatus(id, MenuDishStatus.ACTIVE);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class MenuDishServiceImpl implements MenuDishService {
     }
 
     @Override
-    public MenuDish getMenuDishByIdAndActive(Long menuDishId) {
+    public MenuDish getMenuDishActive(Long menuDishId) {
         return menuDishRepository.findByIdAndStatus(menuDishId, MenuDishStatus.ACTIVE)
                 .orElseThrow(() -> new ResourceNotFoundException("Dish not found!"));
     }
@@ -140,6 +140,13 @@ public class MenuDishServiceImpl implements MenuDishService {
         existing.setStatus(MenuDishStatus.DISCONTINUED);
         existing.setDiscontinuedTime(now);
         menuDishRepository.save(existing);
+    }
+
+    @Override
+    public MenuDish toggleMenuDishAvailability(Long menuDishId, String username) {
+
+        MenuDish existing = menuDishRepository.findByIdAndStatusAndRestaurantUserEntityUsername(menuDishId, username, MenuDishStatus.ACTIVE)
+                .orElseThrow(() -> new IllegalStateException("Dish not found"));
     }
 
 }

@@ -36,11 +36,9 @@ public class MenuDishController {
     @PreAuthorize("hasAuthority('VIEW_MENU_DISH')")
     @GetMapping(path = "/{menu_dish_id}")
     public MenuDishResponseDto menuDish(
-            @PathVariable("restaurant_id") Long restaurantId,
             @PathVariable("menu_dish_id") Long menuDishId)
     {
-        MenuDish menuDish = menuDishService.getMenuDish(restaurantId, menuDishId);
-        return menuDishMapper.toResponseDto(menuDish);
+        return menuDishMapper.toResponseDto(menuDishService.getMenuDishActive(menuDishId));
     }
 
     @PreAuthorize("hasAuthority('ADD_MENU_DISH')")

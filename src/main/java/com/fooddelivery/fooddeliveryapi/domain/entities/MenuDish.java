@@ -28,8 +28,8 @@ public class MenuDish {
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
-    @Column(name = "available")
-    private Boolean available;
+    @Column(name = "available", nullable = false)
+    private boolean available;
 
     @Column(name = "status")
     private MenuDishStatus status;

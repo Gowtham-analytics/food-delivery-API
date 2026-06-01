@@ -143,10 +143,14 @@ public class MenuDishServiceImpl implements MenuDishService {
     }
 
     @Override
-    public MenuDish toggleMenuDishAvailability(Long menuDishId, String username) {
+    public boolean toggleMenuDishAvailability(Long menuDishId, String username) {
 
         MenuDish existing = menuDishRepository.findByIdAndStatusAndRestaurantUserEntityUsername(menuDishId, username, MenuDishStatus.ACTIVE)
-                .orElseThrow(() -> new IllegalStateException("Dish not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Dish not found"));
+
+        existing.setAvailable(!existing.getAvailable());
+        menuDishRepository.save(existing);
+        return existing.getAvailable();
     }
 
 }

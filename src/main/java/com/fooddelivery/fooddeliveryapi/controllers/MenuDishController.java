@@ -98,7 +98,7 @@ public class MenuDishController {
                         username));
     }
 
-    @PreAuthorize("hasAuthority('DELETE_MENU_DISH')")
+    @PreAuthorize("hasAuthority('UPDATE_MENU_DISH')")
     @PatchMapping(path = "/{menu_dish_id}/life-cycle")
     public void discontinueMenuDish(
             @PathVariable("menu_dish_id") Long menuDishId,
@@ -108,5 +108,17 @@ public class MenuDishController {
         String username = authentication.getName();
 
         menuDishService.discontinueMenuDish(menuDishId, username);
+    }
+
+    @PreAuthorize("hasAuthority('UPDATE_MENU_DISH')")
+    @PatchMapping(path = "/{menu_dish_id}/toggle-availability")
+    public boolean toggleMenuDishAvailability(
+            @PathVariable("menu_dish_id") Long menuDishId,
+            Authentication authentication
+    )
+    {
+        String username = authentication.getName();
+
+        return menuDishService.toggleMenuDishAvailability(menuDishId, username);
     }
 }

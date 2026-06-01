@@ -14,5 +14,5 @@ public interface MenuDishService {
     MenuDish partialUpdate(Long restaurantId, Long menuDishId, MenuDish menuDish, String username);
     MenuDish fullUpdate(Long restaurantId, Long menuDishId, MenuDish menuDish, String username);
     void discontinueMenuDish(Long menuDishId, String username);
-    MenuDish toggleMenuDishAvailability(Long menuDishId, String username);
+    boolean toggleMenuDishAvailability(Long menuDishId, String username);
 }

@@ -1,5 +1,6 @@
 package com.fooddelivery.fooddeliveryapi.domain.entities;
 
+import com.fooddelivery.fooddeliveryapi.enums.MenuDishStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -26,6 +27,15 @@ public class MenuDish {
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
+
+    @Column(name = "available", nullable = false)
+    private boolean available;
+
+    @Column(name = "status", nullable = false)
+    private MenuDishStatus status;
+
+    @Column(name = "discontinued_time", nullable = false, updatable = false)
+    private LocalDateTime discontinuedTime;
 
     @Column(name = "created", nullable = false, updatable = false)
     private LocalDateTime created;

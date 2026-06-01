@@ -16,13 +16,13 @@ public class Restaurant {
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
-    @Column(name = "restaurant_name", nullable = false, updatable = true)
+    @Column(name = "restaurant_name", nullable = false)
     private String name;
 
-    @Column(name = "location", nullable = false, updatable = true)
+    @Column(name = "location", nullable = false)
     private String location;
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MenuDish> menuDish = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurant")

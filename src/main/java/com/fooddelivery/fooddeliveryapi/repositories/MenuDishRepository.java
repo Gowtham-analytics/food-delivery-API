@@ -1,6 +1,7 @@
 package com.fooddelivery.fooddeliveryapi.repositories;
 
 import com.fooddelivery.fooddeliveryapi.domain.entities.MenuDish;
+import com.fooddelivery.fooddeliveryapi.enums.MenuDishStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -10,6 +11,6 @@ public interface MenuDishRepository extends JpaRepository<MenuDish, Long> {
 
     List<MenuDish> findByRestaurantId(Long id);
     Optional<MenuDish> findByRestaurantIdAndId(Long restaurantId, Long menuDishId);
-    int deleteByIdAndRestaurantUserEntityUsername(Long menuDishId, String username);
-    Optional<MenuDish> findByIdAndRestaurantUserEntityUsername(Long menuDishId, String username);
+    Optional<MenuDish> findByIdAndStatusAndRestaurantUserEntityUsername(Long menuDishId, String username, MenuDishStatus status);
+    Optional<MenuDish> findByIdAndStatus(Long menuDishId, MenuDishStatus status);
 }

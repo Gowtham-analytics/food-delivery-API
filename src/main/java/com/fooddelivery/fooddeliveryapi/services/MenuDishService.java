@@ -9,6 +9,7 @@ public interface MenuDishService {
     List<MenuDish> listMenuDishes(Long id);
     MenuDish getMenuDish(Long restaurantId, Long menuDishId);
     MenuDish getMenuDishById(Long menuDishId);
+    MenuDish getMenuDishByIdAndActive(Long menuDishId);
     MenuDish createMenuDish(Long restaurantId, MenuDish menuDish, String username);
     MenuDish partialUpdate(Long restaurantId, Long menuDishId, MenuDish menuDish, String username);
     MenuDish fullUpdate(Long restaurantId, Long menuDishId, MenuDish menuDish, String username);

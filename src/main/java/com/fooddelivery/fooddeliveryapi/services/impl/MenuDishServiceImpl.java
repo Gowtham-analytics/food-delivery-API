@@ -1,5 +1,6 @@
 package com.fooddelivery.fooddeliveryapi.services.impl;
 
+import com.fooddelivery.fooddeliveryapi.enums.MenuDishStatus;
 import com.fooddelivery.fooddeliveryapi.exceptions.ResourceNotFoundException;
 import com.fooddelivery.fooddeliveryapi.domain.entities.MenuDish;
 import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
@@ -118,14 +119,19 @@ public class MenuDishServiceImpl implements MenuDishService {
         return menuDishRepository.save(existing);
     }
 
-    @Transactional
     @Override
-    public void deleteMenuDish(Long menuDishId, String username) {
+    public void discontinueMenuDish(Long menuDishId, String username) {
 
-        int delete = menuDishRepository.deleteByIdAndRestaurantUserEntityUsername(menuDishId, username);
+        MenuDish existing = menuDishRepository.findByIdAndRestaurantUserEntityUsername(menuDishId, username)
+                .orElseThrow(() -> new ResourceNotFoundException("Menu dish does not exist"));
 
-        if(delete == 0) {
-            throw new AccessDeniedException("Not allowed");
+        if(existing.getStatus() == MenuDishStatus.DISCONTINUED) {
+            throw new IllegalStateException("Dish already discontinued!");
         }
+
+        existing.setStatus(MenuDishStatus.DISCONTINUED);
+        menuDishRepository.save(existing);
     }
+
+
 }

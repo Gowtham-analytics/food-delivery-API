@@ -12,5 +12,5 @@ public interface MenuDishService {
     MenuDish createMenuDish(Long restaurantId, MenuDish menuDish, String username);
     MenuDish partialUpdate(Long restaurantId, Long menuDishId, MenuDish menuDish, String username);
     MenuDish fullUpdate(Long restaurantId, Long menuDishId, MenuDish menuDish, String username);
-    void deleteMenuDish(Long menuDishId, String username);
+    void discontinueMenuDish(Long menuDishId, String username);
 }

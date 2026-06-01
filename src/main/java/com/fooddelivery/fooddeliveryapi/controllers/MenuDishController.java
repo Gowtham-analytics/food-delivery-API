@@ -101,14 +101,14 @@ public class MenuDishController {
     }
 
     @PreAuthorize("hasAuthority('DELETE_MENU_DISH')")
-    @DeleteMapping(path = "/{menu_dish_id}")
-    public void deleteMenuDish(
+    @PatchMapping(path = "/{menu_dish_id}")
+    public void discontinueMenuDish(
             @PathVariable("menu_dish_id") Long menuDishId,
             Authentication authentication
     )
     {
         String username = authentication.getName();
 
-        menuDishService.deleteMenuDish(menuDishId, username);
+        menuDishService.discontinueMenuDish(menuDishId, username);
     }
 }

@@ -11,6 +11,6 @@ public interface MenuDishRepository extends JpaRepository<MenuDish, Long> {
 
     List<MenuDish> findByRestaurantIdAndStatus(Long id, MenuDishStatus status);
     Optional<MenuDish> findByRestaurantIdAndId(Long restaurantId, Long menuDishId);
-    Optional<MenuDish> findByIdAndStatusAndRestaurantUserEntityUsername(Long menuDishId, String username, MenuDishStatus status);
+    Optional<MenuDish> findByIdAndStatusAndRestaurantUserEntityUsername(Long menuDishId, MenuDishStatus status, String username);
     Optional<MenuDish> findByIdAndStatus(Long menuDishId, MenuDishStatus status);
 }

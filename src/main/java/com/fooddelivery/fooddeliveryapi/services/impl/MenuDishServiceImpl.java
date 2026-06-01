@@ -71,8 +71,8 @@ public class MenuDishServiceImpl implements MenuDishService {
                 menuDish.getPrice(),
                 menuDish.getVeg(),
                 existing,
-                menuDish.getAvailable(),
-                menuDish.getStatus(),
+                false,
+                MenuDishStatus.ACTIVE,
                 menuDish.getDiscontinuedTime(),
                 now,
                 now
@@ -84,7 +84,7 @@ public class MenuDishServiceImpl implements MenuDishService {
     @Override
     public MenuDish partialUpdate(Long restaurantId, Long menuDishId, MenuDish menuDish, String username) {
 
-        MenuDish existing = menuDishRepository.findByIdAndStatusAndRestaurantUserEntityUsername(menuDishId, username, MenuDishStatus.ACTIVE)
+        MenuDish existing = menuDishRepository.findByIdAndStatusAndRestaurantUserEntityUsername(menuDishId, MenuDishStatus.ACTIVE, username)
                 .orElseThrow(() -> new ResourceNotFoundException("Dish not found!"));
 
         if(menuDish.getName() != null && !menuDish.getName().isBlank()) {
@@ -105,7 +105,7 @@ public class MenuDishServiceImpl implements MenuDishService {
     @Override
     public MenuDish fullUpdate(Long restaurantId, Long menuDishId, MenuDish menuDish, String username) {
 
-        MenuDish existing = menuDishRepository.findByIdAndStatusAndRestaurantUserEntityUsername(menuDishId, username, MenuDishStatus.ACTIVE)
+        MenuDish existing = menuDishRepository.findByIdAndStatusAndRestaurantUserEntityUsername(menuDishId, MenuDishStatus.ACTIVE, username)
                 .orElseThrow(() -> new ResourceNotFoundException("Dish not found!"));
 
         if(menuDish.getName() == null || menuDish.getName().isBlank()) {
@@ -128,7 +128,7 @@ public class MenuDishServiceImpl implements MenuDishService {
     @Override
     public void discontinueMenuDish(Long menuDishId, String username) {
 
-        MenuDish existing = menuDishRepository.findByIdAndStatusAndRestaurantUserEntityUsername(menuDishId, username, MenuDishStatus.ACTIVE)
+        MenuDish existing = menuDishRepository.findByIdAndStatusAndRestaurantUserEntityUsername(menuDishId, MenuDishStatus.ACTIVE, username)
                 .orElseThrow(() -> new ResourceNotFoundException("Dish not found!"));
 
         if(existing.getStatus() == MenuDishStatus.DISCONTINUED) {
@@ -145,7 +145,7 @@ public class MenuDishServiceImpl implements MenuDishService {
     @Override
     public boolean toggleMenuDishAvailability(Long menuDishId, String username) {
 
-        MenuDish existing = menuDishRepository.findByIdAndStatusAndRestaurantUserEntityUsername(menuDishId, username, MenuDishStatus.ACTIVE)
+        MenuDish existing = menuDishRepository.findByIdAndStatusAndRestaurantUserEntityUsername(menuDishId, MenuDishStatus.ACTIVE, username)
                 .orElseThrow(() -> new ResourceNotFoundException("Dish not found"));
 
         existing.setAvailable(!existing.getAvailable());

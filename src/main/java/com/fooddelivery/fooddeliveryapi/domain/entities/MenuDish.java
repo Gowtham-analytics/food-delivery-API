@@ -31,7 +31,7 @@ public class MenuDish {
     @Column(name = "available", nullable = false)
     private boolean available;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private MenuDishStatus status;
 
     @Column(name = "discontinued_time")

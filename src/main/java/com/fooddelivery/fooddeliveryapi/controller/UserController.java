@@ -1,9 +1,9 @@
-package com.fooddelivery.fooddeliveryapi.controllers;
+package com.fooddelivery.fooddeliveryapi.controller;
 
 import com.fooddelivery.fooddeliveryapi.domain.dto.create.UserCreateDto;
 import com.fooddelivery.fooddeliveryapi.domain.dto.request.UserLoginRequestDto;
-import com.fooddelivery.fooddeliveryapi.services.impl.JwtServiceImpl;
-import com.fooddelivery.fooddeliveryapi.services.impl.UserServiceImpl;
+import com.fooddelivery.fooddeliveryapi.service.impl.JwtServiceImpl;
+import com.fooddelivery.fooddeliveryapi.service.impl.UserServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

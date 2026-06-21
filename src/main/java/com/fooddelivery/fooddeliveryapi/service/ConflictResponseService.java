@@ -1,8 +1,8 @@
-package com.fooddelivery.fooddeliveryapi.services;
+package com.fooddelivery.fooddeliveryapi.service;
 
 import com.fooddelivery.fooddeliveryapi.domain.dto.response.RestaurantConflictResponseDto;
-import com.fooddelivery.fooddeliveryapi.domain.entities.Order;
-import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
+import com.fooddelivery.fooddeliveryapi.domain.entity.Order;
+import com.fooddelivery.fooddeliveryapi.domain.entity.Restaurant;
 
 public interface ConflictResponseService {
 

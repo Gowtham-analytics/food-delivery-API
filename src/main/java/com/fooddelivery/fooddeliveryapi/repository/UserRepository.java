@@ -1,6 +1,6 @@
-package com.fooddelivery.fooddeliveryapi.repositories;
+package com.fooddelivery.fooddeliveryapi.repository;
 
-import com.fooddelivery.fooddeliveryapi.domain.entities.UserEntity;
+import com.fooddelivery.fooddeliveryapi.domain.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

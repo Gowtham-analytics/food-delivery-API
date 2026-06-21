@@ -1,19 +1,18 @@
-package com.fooddelivery.fooddeliveryapi.services;
+package com.fooddelivery.fooddeliveryapi.service;
 
-import com.fooddelivery.fooddeliveryapi.enums.MenuDishStatus;
-import com.fooddelivery.fooddeliveryapi.exceptions.ResourceNotFoundException;
-import com.fooddelivery.fooddeliveryapi.domain.entities.MenuDish;
-import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
-import com.fooddelivery.fooddeliveryapi.repositories.MenuDishRepository;
-import com.fooddelivery.fooddeliveryapi.repositories.RestaurantRepository;
-import com.fooddelivery.fooddeliveryapi.repositories.UserRepository;
-import com.fooddelivery.fooddeliveryapi.services.impl.MenuDishServiceImpl;
+import com.fooddelivery.fooddeliveryapi.enumerator.MenuDishStatus;
+import com.fooddelivery.fooddeliveryapi.exception.ResourceNotFoundException;
+import com.fooddelivery.fooddeliveryapi.domain.entity.MenuDish;
+import com.fooddelivery.fooddeliveryapi.domain.entity.Restaurant;
+import com.fooddelivery.fooddeliveryapi.repository.MenuDishRepository;
+import com.fooddelivery.fooddeliveryapi.repository.RestaurantRepository;
+import com.fooddelivery.fooddeliveryapi.repository.UserRepository;
+import com.fooddelivery.fooddeliveryapi.service.impl.MenuDishServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.access.AccessDeniedException;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +44,7 @@ public class MenuDishServiceImplTests {
         List<MenuDish> testList = List.of(new MenuDish(), new MenuDish());
 
         when(restaurantRepository.findById(id)).thenReturn(Optional.of(testRestaurant));
-        when(menuDishRepository.findByRestaurantIdAndStatus(id, MenuDishStatus.ACTIVE)).thenReturn(testList);
+        when(menuDishRepository.findByRestaurant_IdAndStatus(id, MenuDishStatus.ACTIVE)).thenReturn(testList);
 
         List<MenuDish> result = menuDishService.listMenuDishes(id);
 
@@ -70,9 +69,9 @@ public class MenuDishServiceImplTests {
         Long menuDishId = 1L;
         MenuDish testMenuDish = new MenuDish(1L, "testMenuDish", 50.00, true, null, false, null, null, null, null);
 
-        when(menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId)).thenReturn(Optional.of(testMenuDish));
+        when(menuDishRepository.findByRestaurant_IdAndIdAndStatus(restaurantId, menuDishId, MenuDishStatus.ACTIVE)).thenReturn(Optional.of(testMenuDish));
 
-        MenuDish result = menuDishService.getMenuDish(restaurantId, menuDishId);
+        MenuDish result = menuDishService.getActiveMenuDish(restaurantId, menuDishId);
 
         assertEquals(testMenuDish, result);
     }
@@ -83,11 +82,11 @@ public class MenuDishServiceImplTests {
         Long restaurantId = 1L;
         Long menuDishId = 1L;
 
-        when(menuDishRepository.findByRestaurantIdAndId(restaurantId, menuDishId))
+        when(menuDishRepository.findByRestaurant_IdAndIdAndStatus(restaurantId, menuDishId, MenuDishStatus.ACTIVE))
                 .thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class,
-                () -> menuDishService.getMenuDish(restaurantId, menuDishId));
+                () -> menuDishService.getActiveMenuDish(restaurantId, menuDishId));
     }
 
     @Test

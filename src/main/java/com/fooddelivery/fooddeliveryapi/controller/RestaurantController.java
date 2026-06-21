@@ -1,11 +1,11 @@
-package com.fooddelivery.fooddeliveryapi.controllers;
+package com.fooddelivery.fooddeliveryapi.controller;
 
 import com.fooddelivery.fooddeliveryapi.domain.dto.create.RestaurantCreateDto;
 import com.fooddelivery.fooddeliveryapi.domain.dto.response.RestaurantResponseDto;
 import com.fooddelivery.fooddeliveryapi.domain.dto.update.RestaurantUpdateDto;
-import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
-import com.fooddelivery.fooddeliveryapi.mappers.RestaurantMapper;
-import com.fooddelivery.fooddeliveryapi.services.RestaurantService;
+import com.fooddelivery.fooddeliveryapi.domain.entity.Restaurant;
+import com.fooddelivery.fooddeliveryapi.mapper.RestaurantMapper;
+import com.fooddelivery.fooddeliveryapi.service.RestaurantService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

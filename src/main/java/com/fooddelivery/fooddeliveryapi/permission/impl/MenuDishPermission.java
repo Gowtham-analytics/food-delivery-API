@@ -1,6 +1,6 @@
-package com.fooddelivery.fooddeliveryapi.permissions.impl;
+package com.fooddelivery.fooddeliveryapi.permission.impl;
 
-import com.fooddelivery.fooddeliveryapi.permissions.Permission;
+import com.fooddelivery.fooddeliveryapi.permission.Permission;
 
 public enum MenuDishPermission implements Permission {
     VIEW,

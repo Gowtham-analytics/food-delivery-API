@@ -1,6 +1,6 @@
-package com.fooddelivery.fooddeliveryapi.domain.entities;
+package com.fooddelivery.fooddeliveryapi.domain.entity;
 
-import com.fooddelivery.fooddeliveryapi.enums.MenuDishStatus;
+import com.fooddelivery.fooddeliveryapi.enumerator.MenuDishStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -31,6 +31,7 @@ public class MenuDish {
     @Column(name = "available", nullable = false)
     private boolean available;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private MenuDishStatus status;
 

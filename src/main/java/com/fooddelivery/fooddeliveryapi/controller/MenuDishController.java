@@ -1,11 +1,11 @@
-package com.fooddelivery.fooddeliveryapi.controllers;
+package com.fooddelivery.fooddeliveryapi.controller;
 
 import com.fooddelivery.fooddeliveryapi.domain.dto.create.MenuDishCreateDto;
 import com.fooddelivery.fooddeliveryapi.domain.dto.response.MenuDishResponseDto;
 import com.fooddelivery.fooddeliveryapi.domain.dto.update.MenuDishUpdateDto;
-import com.fooddelivery.fooddeliveryapi.domain.entities.MenuDish;
-import com.fooddelivery.fooddeliveryapi.mappers.MenuDishMapper;
-import com.fooddelivery.fooddeliveryapi.services.MenuDishService;
+import com.fooddelivery.fooddeliveryapi.domain.entity.MenuDish;
+import com.fooddelivery.fooddeliveryapi.mapper.MenuDishMapper;
+import com.fooddelivery.fooddeliveryapi.service.MenuDishService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,9 +36,10 @@ public class MenuDishController {
     @PreAuthorize("hasAuthority('VIEW_MENU_DISH')")
     @GetMapping(path = "/{menu_dish_id}")
     public MenuDishResponseDto menuDish(
+            @PathVariable("restaurant_id") Long restaurantId,
             @PathVariable("menu_dish_id") Long menuDishId)
     {
-        return menuDishMapper.toResponseDto(menuDishService.getMenuDishActive(menuDishId));
+        return menuDishMapper.toResponseDto(menuDishService.getActiveMenuDish(restaurantId, menuDishId));
     }
 
     @PreAuthorize("hasAuthority('ADD_MENU_DISH')")
@@ -69,7 +70,7 @@ public class MenuDishController {
             Authentication authentication
     )
     {
-        String username = authentication.getName();;
+        String username = authentication.getName();
 
         return menuDishMapper.toUpdateDto(
                 menuDishService.partialUpdate(
@@ -101,24 +102,26 @@ public class MenuDishController {
     @PreAuthorize("hasAuthority('UPDATE_MENU_DISH')")
     @PatchMapping(path = "/{menu_dish_id}/life-cycle")
     public void discontinueMenuDish(
+            @PathVariable("restaurant_id") Long restaurantId,
             @PathVariable("menu_dish_id") Long menuDishId,
             Authentication authentication
     )
     {
         String username = authentication.getName();
 
-        menuDishService.discontinueMenuDish(menuDishId, username);
+        menuDishService.discontinueMenuDish(restaurantId, menuDishId, username);
     }
 
     @PreAuthorize("hasAuthority('UPDATE_MENU_DISH')")
     @PatchMapping(path = "/{menu_dish_id}/toggle-availability")
     public boolean toggleMenuDishAvailability(
+            @PathVariable("restaurant_id") Long restaurantId,
             @PathVariable("menu_dish_id") Long menuDishId,
             Authentication authentication
     )
     {
         String username = authentication.getName();
 
-        return menuDishService.toggleMenuDishAvailability(menuDishId, username);
+        return menuDishService.toggleMenuDishAvailability(restaurantId, menuDishId, username);
     }
 }

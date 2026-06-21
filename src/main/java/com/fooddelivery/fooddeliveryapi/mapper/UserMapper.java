@@ -1,8 +1,8 @@
-package com.fooddelivery.fooddeliveryapi.mappers;
+package com.fooddelivery.fooddeliveryapi.mapper;
 
 import com.fooddelivery.fooddeliveryapi.domain.dto.create.UserCreateDto;
 import com.fooddelivery.fooddeliveryapi.domain.dto.request.UserLoginRequestDto;
-import com.fooddelivery.fooddeliveryapi.domain.entities.UserEntity;
+import com.fooddelivery.fooddeliveryapi.domain.entity.UserEntity;
 import org.springframework.stereotype.Component;
 
 @Component

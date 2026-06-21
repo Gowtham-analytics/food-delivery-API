@@ -1,4 +1,4 @@
-package com.fooddelivery.fooddeliveryapi.services;
+package com.fooddelivery.fooddeliveryapi.service;
 
 import com.fooddelivery.fooddeliveryapi.domain.dto.create.OrderItemCreateDto;
 import com.fooddelivery.fooddeliveryapi.domain.dto.response.CartActionResponseDto;

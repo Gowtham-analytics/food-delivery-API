@@ -1,4 +1,4 @@
-package com.fooddelivery.fooddeliveryapi.permissions;
+package com.fooddelivery.fooddeliveryapi.permission;
 
 public interface Permission {
 

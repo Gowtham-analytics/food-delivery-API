@@ -1,13 +1,12 @@
-package com.fooddelivery.fooddeliveryapi.services.impl;
+package com.fooddelivery.fooddeliveryapi.service.impl;
 
-import com.fooddelivery.fooddeliveryapi.domain.entities.Order;
-import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
-import com.fooddelivery.fooddeliveryapi.domain.entities.UserEntity;
-import com.fooddelivery.fooddeliveryapi.enums.OrderStatus;
-import com.fooddelivery.fooddeliveryapi.exceptions.ResourceNotFoundException;
-import com.fooddelivery.fooddeliveryapi.mappers.OrderMapper;
-import com.fooddelivery.fooddeliveryapi.repositories.OrderRepository;
-import com.fooddelivery.fooddeliveryapi.services.OrderService;
+import com.fooddelivery.fooddeliveryapi.domain.entity.Order;
+import com.fooddelivery.fooddeliveryapi.domain.entity.Restaurant;
+import com.fooddelivery.fooddeliveryapi.domain.entity.UserEntity;
+import com.fooddelivery.fooddeliveryapi.enumerator.OrderStatus;
+import com.fooddelivery.fooddeliveryapi.exception.ResourceNotFoundException;
+import com.fooddelivery.fooddeliveryapi.repository.OrderRepository;
+import com.fooddelivery.fooddeliveryapi.service.OrderService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

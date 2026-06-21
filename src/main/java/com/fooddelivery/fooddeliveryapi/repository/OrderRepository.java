@@ -1,8 +1,7 @@
-package com.fooddelivery.fooddeliveryapi.repositories;
+package com.fooddelivery.fooddeliveryapi.repository;
 
-import com.fooddelivery.fooddeliveryapi.domain.dto.response.OrderResponseDto;
-import com.fooddelivery.fooddeliveryapi.domain.entities.Order;
-import com.fooddelivery.fooddeliveryapi.enums.OrderStatus;
+import com.fooddelivery.fooddeliveryapi.domain.entity.Order;
+import com.fooddelivery.fooddeliveryapi.enumerator.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

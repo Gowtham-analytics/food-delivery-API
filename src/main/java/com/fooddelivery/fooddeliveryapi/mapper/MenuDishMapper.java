@@ -1,9 +1,9 @@
-package com.fooddelivery.fooddeliveryapi.mappers;
+package com.fooddelivery.fooddeliveryapi.mapper;
 
 import com.fooddelivery.fooddeliveryapi.domain.dto.create.MenuDishCreateDto;
 import com.fooddelivery.fooddeliveryapi.domain.dto.response.MenuDishResponseDto;
 import com.fooddelivery.fooddeliveryapi.domain.dto.update.MenuDishUpdateDto;
-import com.fooddelivery.fooddeliveryapi.domain.entities.MenuDish;
+import com.fooddelivery.fooddeliveryapi.domain.entity.MenuDish;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,7 +24,7 @@ public class MenuDishMapper {
                 menuDishCreateDto.price(),
                 menuDishCreateDto.veg(),
                 null,
-                null,
+                menuDishCreateDto.veg(),
                 null,
                 null,
                 null,
@@ -47,7 +47,7 @@ public class MenuDishMapper {
                 menuDishUpdateDto.price(),
                 menuDishUpdateDto.veg(),
                 null,
-                null,
+                menuDishUpdateDto.veg(),
                 null,
                 null,
                 null,

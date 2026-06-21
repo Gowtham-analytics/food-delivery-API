@@ -1,6 +1,6 @@
-package com.fooddelivery.fooddeliveryapi.services.impl;
+package com.fooddelivery.fooddeliveryapi.service.impl;
 
-import com.fooddelivery.fooddeliveryapi.services.JwtService;
+import com.fooddelivery.fooddeliveryapi.service.JwtService;
 import com.fooddelivery.fooddeliveryapi.util.JwtSecurityKey;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

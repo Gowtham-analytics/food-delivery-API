@@ -1,6 +1,6 @@
-package com.fooddelivery.fooddeliveryapi.domain.entities;
+package com.fooddelivery.fooddeliveryapi.domain.entity;
 
-import com.fooddelivery.fooddeliveryapi.enums.OrderStatus;
+import com.fooddelivery.fooddeliveryapi.enumerator.OrderStatus;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;

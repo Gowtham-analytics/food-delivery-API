@@ -1,7 +1,7 @@
 package com.fooddelivery.fooddeliveryapi.util;
 
-import com.fooddelivery.fooddeliveryapi.enums.UserRole;
-import com.fooddelivery.fooddeliveryapi.services.impl.JwtServiceImpl;
+import com.fooddelivery.fooddeliveryapi.enumerator.UserRole;
+import com.fooddelivery.fooddeliveryapi.service.impl.JwtServiceImpl;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -11,8 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 

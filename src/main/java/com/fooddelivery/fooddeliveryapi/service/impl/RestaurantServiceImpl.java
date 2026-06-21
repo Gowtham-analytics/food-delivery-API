@@ -1,11 +1,11 @@
-package com.fooddelivery.fooddeliveryapi.services.impl;
+package com.fooddelivery.fooddeliveryapi.service.impl;
 
-import com.fooddelivery.fooddeliveryapi.domain.entities.UserEntity;
-import com.fooddelivery.fooddeliveryapi.exceptions.ResourceNotFoundException;
-import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
-import com.fooddelivery.fooddeliveryapi.repositories.RestaurantRepository;
-import com.fooddelivery.fooddeliveryapi.services.RestaurantService;
-import com.fooddelivery.fooddeliveryapi.services.UserService;
+import com.fooddelivery.fooddeliveryapi.domain.entity.UserEntity;
+import com.fooddelivery.fooddeliveryapi.exception.ResourceNotFoundException;
+import com.fooddelivery.fooddeliveryapi.domain.entity.Restaurant;
+import com.fooddelivery.fooddeliveryapi.repository.RestaurantRepository;
+import com.fooddelivery.fooddeliveryapi.service.RestaurantService;
+import com.fooddelivery.fooddeliveryapi.service.UserService;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;

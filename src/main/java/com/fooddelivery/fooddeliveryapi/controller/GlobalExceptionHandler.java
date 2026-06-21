@@ -1,8 +1,8 @@
-package com.fooddelivery.fooddeliveryapi.controllers;
+package com.fooddelivery.fooddeliveryapi.controller;
 
-import com.fooddelivery.fooddeliveryapi.exceptions.ResourceNotFoundException;
-import com.fooddelivery.fooddeliveryapi.exceptions.RestaurantOrderConflictException;
-import com.fooddelivery.fooddeliveryapi.exceptions.UsernameAlreadyExistsException;
+import com.fooddelivery.fooddeliveryapi.exception.ResourceNotFoundException;
+import com.fooddelivery.fooddeliveryapi.exception.RestaurantOrderConflictException;
+import com.fooddelivery.fooddeliveryapi.exception.UsernameAlreadyExistsException;
 import com.fooddelivery.fooddeliveryapi.domain.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,8 +1,6 @@
-package com.fooddelivery.fooddeliveryapi.services;
+package com.fooddelivery.fooddeliveryapi.service;
 
-import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
-import com.fooddelivery.fooddeliveryapi.domain.entities.UserEntity;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.fooddelivery.fooddeliveryapi.domain.entity.Restaurant;
 
 import java.util.List;
 

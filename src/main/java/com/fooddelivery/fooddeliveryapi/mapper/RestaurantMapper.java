@@ -1,9 +1,9 @@
-package com.fooddelivery.fooddeliveryapi.mappers;
+package com.fooddelivery.fooddeliveryapi.mapper;
 
 import com.fooddelivery.fooddeliveryapi.domain.dto.create.RestaurantCreateDto;
 import com.fooddelivery.fooddeliveryapi.domain.dto.response.RestaurantResponseDto;
 import com.fooddelivery.fooddeliveryapi.domain.dto.update.RestaurantUpdateDto;
-import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
+import com.fooddelivery.fooddeliveryapi.domain.entity.Restaurant;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;

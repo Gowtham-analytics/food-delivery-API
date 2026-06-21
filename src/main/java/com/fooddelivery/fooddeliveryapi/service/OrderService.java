@@ -1,9 +1,9 @@
-package com.fooddelivery.fooddeliveryapi.services;
+package com.fooddelivery.fooddeliveryapi.service;
 
-import com.fooddelivery.fooddeliveryapi.domain.entities.Order;
-import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
-import com.fooddelivery.fooddeliveryapi.domain.entities.UserEntity;
-import com.fooddelivery.fooddeliveryapi.enums.OrderStatus;
+import com.fooddelivery.fooddeliveryapi.domain.entity.Order;
+import com.fooddelivery.fooddeliveryapi.domain.entity.Restaurant;
+import com.fooddelivery.fooddeliveryapi.domain.entity.UserEntity;
+import com.fooddelivery.fooddeliveryapi.enumerator.OrderStatus;
 
 import java.util.List;
 import java.util.Optional;

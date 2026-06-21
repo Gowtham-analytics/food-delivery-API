@@ -1,9 +1,9 @@
-package com.fooddelivery.fooddeliveryapi.services.impl;
+package com.fooddelivery.fooddeliveryapi.service.impl;
 
 import com.fooddelivery.fooddeliveryapi.domain.dto.response.RestaurantConflictResponseDto;
-import com.fooddelivery.fooddeliveryapi.domain.entities.Order;
-import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
-import com.fooddelivery.fooddeliveryapi.services.ConflictResponseService;
+import com.fooddelivery.fooddeliveryapi.domain.entity.Order;
+import com.fooddelivery.fooddeliveryapi.domain.entity.Restaurant;
+import com.fooddelivery.fooddeliveryapi.service.ConflictResponseService;
 import org.springframework.stereotype.Service;
 
 @Service

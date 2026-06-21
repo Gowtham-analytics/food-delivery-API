@@ -1,7 +1,8 @@
-package com.fooddelivery.fooddeliveryapi.domain.entities;
+package com.fooddelivery.fooddeliveryapi.domain.entity;
 
-import com.fooddelivery.fooddeliveryapi.enums.UserRole;
+import com.fooddelivery.fooddeliveryapi.enumerator.UserRole;
 import jakarta.persistence.*;
+import jdk.jfr.BooleanFlag;
 
 import java.time.LocalDateTime;
 import java.util.List;

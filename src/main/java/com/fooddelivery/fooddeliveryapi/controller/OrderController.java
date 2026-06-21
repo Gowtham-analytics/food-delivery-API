@@ -1,8 +1,8 @@
-package com.fooddelivery.fooddeliveryapi.controllers;
+package com.fooddelivery.fooddeliveryapi.controller;
 
 import com.fooddelivery.fooddeliveryapi.domain.dto.response.OrderResponseDto;
-import com.fooddelivery.fooddeliveryapi.mappers.OrderMapper;
-import com.fooddelivery.fooddeliveryapi.services.OrderService;
+import com.fooddelivery.fooddeliveryapi.mapper.OrderMapper;
+import com.fooddelivery.fooddeliveryapi.service.OrderService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.Authentication;

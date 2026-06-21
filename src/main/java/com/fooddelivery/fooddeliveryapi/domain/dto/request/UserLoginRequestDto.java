@@ -1,6 +1,6 @@
 package com.fooddelivery.fooddeliveryapi.domain.dto.request;
 
-import com.fooddelivery.fooddeliveryapi.enums.UserRole;
+import com.fooddelivery.fooddeliveryapi.enumerator.UserRole;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;

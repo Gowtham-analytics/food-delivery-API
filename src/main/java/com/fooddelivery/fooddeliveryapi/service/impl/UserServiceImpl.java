@@ -1,10 +1,10 @@
-package com.fooddelivery.fooddeliveryapi.services.impl;
+package com.fooddelivery.fooddeliveryapi.service.impl;
 
-import com.fooddelivery.fooddeliveryapi.exceptions.UsernameAlreadyExistsException;
-import com.fooddelivery.fooddeliveryapi.domain.entities.UserEntity;
-import com.fooddelivery.fooddeliveryapi.enums.UserRole;
-import com.fooddelivery.fooddeliveryapi.repositories.UserRepository;
-import com.fooddelivery.fooddeliveryapi.services.UserService;
+import com.fooddelivery.fooddeliveryapi.exception.UsernameAlreadyExistsException;
+import com.fooddelivery.fooddeliveryapi.domain.entity.UserEntity;
+import com.fooddelivery.fooddeliveryapi.enumerator.UserRole;
+import com.fooddelivery.fooddeliveryapi.repository.UserRepository;
+import com.fooddelivery.fooddeliveryapi.service.UserService;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

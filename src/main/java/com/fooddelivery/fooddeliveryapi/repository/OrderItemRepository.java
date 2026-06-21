@@ -1,7 +1,7 @@
-package com.fooddelivery.fooddeliveryapi.repositories;
+package com.fooddelivery.fooddeliveryapi.repository;
 
-import com.fooddelivery.fooddeliveryapi.domain.entities.Order;
-import com.fooddelivery.fooddeliveryapi.domain.entities.OrderItem;
+import com.fooddelivery.fooddeliveryapi.domain.entity.Order;
+import com.fooddelivery.fooddeliveryapi.domain.entity.OrderItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

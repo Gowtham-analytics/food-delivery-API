@@ -1,7 +1,7 @@
-package com.fooddelivery.fooddeliveryapi.services;
+package com.fooddelivery.fooddeliveryapi.service;
 
-import com.fooddelivery.fooddeliveryapi.domain.entities.UserEntity;
-import com.fooddelivery.fooddeliveryapi.enums.UserRole;
+import com.fooddelivery.fooddeliveryapi.domain.entity.UserEntity;
+import com.fooddelivery.fooddeliveryapi.enumerator.UserRole;
 
 public interface UserService {
 

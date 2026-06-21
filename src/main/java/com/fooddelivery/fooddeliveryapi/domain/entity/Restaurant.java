@@ -1,4 +1,4 @@
-package com.fooddelivery.fooddeliveryapi.domain.entities;
+package com.fooddelivery.fooddeliveryapi.domain.entity;
 
 import jakarta.persistence.*;
 

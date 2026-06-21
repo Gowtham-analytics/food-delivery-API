@@ -1,6 +1,6 @@
 package com.fooddelivery.fooddeliveryapi.domain.dto.response;
 
-import com.fooddelivery.fooddeliveryapi.enums.OrderStatus;
+import com.fooddelivery.fooddeliveryapi.enumerator.OrderStatus;
 
 public record OrderResponseDto(
 

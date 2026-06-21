@@ -1,7 +1,7 @@
 package com.fooddelivery.fooddeliveryapi.domain.dto.response;
 
-import com.fooddelivery.fooddeliveryapi.domain.entities.Order;
-import com.fooddelivery.fooddeliveryapi.domain.entities.Restaurant;
+import com.fooddelivery.fooddeliveryapi.domain.entity.Order;
+import com.fooddelivery.fooddeliveryapi.domain.entity.Restaurant;
 
 public record RestaurantConflictResponseDto(
         Boolean ifConflict,

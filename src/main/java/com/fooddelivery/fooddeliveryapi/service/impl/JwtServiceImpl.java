@@ -34,6 +34,7 @@ public class JwtServiceImpl implements JwtService {
                 .compact();
     }
 
+    @Override
     public Claims verifySignatureAndExtractClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(jwtSecurityKey.getKEY())

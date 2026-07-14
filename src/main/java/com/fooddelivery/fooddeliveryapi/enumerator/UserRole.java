@@ -1,9 +1,9 @@
 package com.fooddelivery.fooddeliveryapi.enumerator;
 
-import com.fooddelivery.fooddeliveryapi.permission.Permission;
-import com.fooddelivery.fooddeliveryapi.permission.impl.MenuDishPermission;
-import com.fooddelivery.fooddeliveryapi.permission.impl.OrderPermission;
-import com.fooddelivery.fooddeliveryapi.permission.impl.RestaurantPermission;
+import com.fooddelivery.fooddeliveryapi.enumerator.permission.Permission;
+import com.fooddelivery.fooddeliveryapi.enumerator.permission.impl.MenuDishPermission;
+import com.fooddelivery.fooddeliveryapi.enumerator.permission.impl.OrderPermission;
+import com.fooddelivery.fooddeliveryapi.enumerator.permission.impl.RestaurantPermission;
 
 import java.util.Collections;
 import java.util.Set;

@@ -1,5 +1,6 @@
 package com.fooddelivery.fooddeliveryapi.service;
 
+import com.fooddelivery.fooddeliveryapi.domain.dto.response.RestaurantConflictResponseDto;
 import com.fooddelivery.fooddeliveryapi.domain.entity.Order;
 import com.fooddelivery.fooddeliveryapi.domain.entity.Restaurant;
 import com.fooddelivery.fooddeliveryapi.domain.entity.UserEntity;

@@ -6,6 +6,7 @@ public record CartActionResponseDto(
         CartStatus cartStatus,
         String restaurant,
         String conflictRestaurant,
-        Integer numberOfItems
+        Integer numberOfItems,
+        Long orderId
 ) {
 }

@@ -46,10 +46,16 @@ public class MenuDishServiceImpl implements MenuDishService {
     }
 
     @Override
+    public MenuDish getAvailableMenuDish(Long menuDishId) {
+        return menuDishRepository.findByIdAndAvailableAndStatus(menuDishId, true, MenuDishStatus.ACTIVE)
+                .orElseThrow(() -> new ResourceNotFoundException("Dish is not available!"));
+    }
+
+    @Override
     public MenuDish createMenuDish(Long restaurantId, MenuDish menuDish, String username) {
 
         Restaurant existing = restaurantRepository.findByIdAndUserEntityUsername(restaurantId, username)
-                .orElseThrow(() -> new ResourceNotFoundException("Dish not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found!"));
 
         if(menuDish.getVeg() == null) {
             menuDish.setVeg(true);
@@ -98,7 +104,7 @@ public class MenuDishServiceImpl implements MenuDishService {
     public MenuDish fullUpdate(Long restaurantId, Long menuDishId, MenuDish menuDish, String username) {
 
         MenuDish existing = menuDishRepository.findByIdAndRestaurant_IdAndStatusAndRestaurantUserEntityUsername(menuDishId, restaurantId, MenuDishStatus.ACTIVE, username)
-                .orElseThrow(() -> new ResourceNotFoundException("Dish not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Menu Dish does not exist!"));
 
         if(menuDish.getName() == null || menuDish.getName().isBlank()) {
             throw new IllegalArgumentException("Name is required for update!");

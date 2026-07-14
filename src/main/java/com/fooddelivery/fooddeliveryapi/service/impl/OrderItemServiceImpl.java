@@ -34,7 +34,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         this.conflictResponseService = conflictResponseService;
     }
 
-    public RestaurantConflictResponseDto restaurantConflict(Long menuDishId, String username) {
+    private RestaurantConflictResponseDto restaurantConflict(Long menuDishId, String username) {
 
         MenuDish menuDish = menuDishService.getMenuDishById(menuDishId);
 
@@ -72,7 +72,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     public CartActionResponseDto addOrderItem(OrderItemCreateDto orderItemCreateDto, String username) {
 
-        MenuDish menuDish = menuDishService.getMenuDishById(orderItemCreateDto.menuDishId());
+        MenuDish menuDish = menuDishService.getAvailableMenuDish(orderItemCreateDto.menuDishId());
 
         UserEntity userEntity = userService.getUserFromUsername(username);
 
@@ -90,7 +90,8 @@ public class OrderItemServiceImpl implements OrderItemService {
                     CartStatus.CONFLICT,
                     restaurant.getName(),
                     restaurantConflict.order().getRestaurant().getName(),
-                    restaurantConflict.order().getNumberOfItems()
+                    restaurantConflict.order().getNumberOfItems(),
+                    restaurantConflict.order().getId()
             );
         }
 
@@ -122,7 +123,8 @@ public class OrderItemServiceImpl implements OrderItemService {
                     CartStatus.OK,
                     restaurant.getName(),
                     null,
-                    newOrder.getNumberOfItems()
+                    newOrder.getNumberOfItems(),
+                    newOrder.getId()
             );
         }
 
@@ -159,11 +161,12 @@ public class OrderItemServiceImpl implements OrderItemService {
                 CartStatus.OK,
                 restaurant.getName(),
                 null,
-                existingOrder.getNumberOfItems()
+                existingOrder.getNumberOfItems(),
+                existingOrder.getId()
         );
     }
 
-    public Double totalPrice(int quantity, Double price) {
+    private Double totalPrice(int quantity, Double price) {
         return quantity * price;
     }
 }
